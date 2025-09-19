@@ -7,7 +7,8 @@ import '@fontsource/roboto/700.css';
 import { Toaster } from 'react-hot-toast';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
-import Home from './Home';
+import LandingPage from './pages/landingpage/LandingPage';
+import Home from './pages/home/Home';
 
 
 
@@ -21,6 +22,7 @@ const App = () => {
         <BrowserRouter >
           <Routes>
             <Route path='/' element={<Home />}></Route>
+            <Route path='/landing-page' element={<LandingPage />}></Route>
             <Route path='/login' element={<Login />}></Route>
             <Route path='/register' element={<Register />}></Route>
 

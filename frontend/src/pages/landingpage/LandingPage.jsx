@@ -1,10 +1,10 @@
 import React from 'react'
-import Particles from './components/Particles'
+import Particles from '../../components/Particles'
 import { Link } from 'react-router-dom'
-import ResponsiveContainer from './components/ResponsiveContainer'
-import Header from './components/Header'
-import Footer from './components/Footer'
-const Home = () => {
+import ResponsiveContainer from '../../components/ResponsiveContainer'
+import Header from '../../components/Header'
+import Footer from '../../components/Footer'
+const LandingPage = () => {
     return (
         <div className="min-h-screen   relative w-full flex ">
             {/* Background Particles */}
@@ -13,10 +13,10 @@ const Home = () => {
                 particleColors={["#ffffff", "#ffffff"]}
                 particleCount={300}
                 particleSpread={10}
-                speed={0.1}
+                speed={0.3}
                 particleBaseSize={100}
                 alphaParticles={false}
-                disableRotation={false}
+                disableRotation={true}
             />
 
             <div className='w-full z-10'>
@@ -25,7 +25,7 @@ const Home = () => {
 
                 <ResponsiveContainer>
                     {/* main banner  */}
-                    <div className='flex w-full   justify-between items-center py-8 mt-16 '>
+                    <div className='flex w-full   justify-between items-center  mt-10 '>
                         <div>
                             <p className='text-2xl font-bold text-white'>SkillSync: Learn, Teach, Grow</p>
                             <p className='text-gray-300 font-semibold mt-2'>Unlock your potential with interactive live</p>
@@ -36,11 +36,11 @@ const Home = () => {
                     </div>
 
                     {/* key features  */}
-                    <div className='mt-12'>
+                    <div className='mt-6'>
                         <p className='font-bold text-lg text-white'>Key Features</p>
                         <div className='flex mt-2 justify-between items-center'>
                             {/* 1 feature  */}
-                            <div className='bg-dark-navy  text-white p-3 rounded-xl w-[300px]'>
+                            <div className='bg-dark-navy  text-white p-3 rounded-xl w-[350px]'>
                                 <div className='flex items-center gap-3 '>
                                     <div className=''>
                                         <img className='h-16 w-16' src="f1.png" alt="" />
@@ -57,7 +57,7 @@ const Home = () => {
                                 </p>
                             </div>
                             {/* 2 feature  */}
-                            <div className='bg-dark-navy mt-2 text-white p-3 rounded-xl w-[300px]'>
+                            <div className='bg-dark-navy mt-2 text-white p-3 rounded-xl w-[350px]'>
                                 <div className='flex items-center gap-3 '>
                                     <div className=''>
                                         <img className='h-16 w-16' src="f2.png" alt="" />
@@ -76,7 +76,7 @@ const Home = () => {
                                 </div>
                             </div>
                             {/* 3 feature  */}
-                            <div className='bg-dark-navy mt-2 text-white p-3 rounded-xl w-[300px]'>
+                            <div className='bg-dark-navy mt-2 text-white p-3 rounded-xl w-[350px]'>
                                 <div className='flex items-center gap-3 '>
                                     <div className=''>
                                         <img className='h-16 w-16' src="f3.png" alt="" />
@@ -98,11 +98,11 @@ const Home = () => {
                     </div>
 
                     {/* Subjects for everyone  */}
-                    <div className='mt-20'>
+                    <div className='mt-12'>
                         <p className='font-bold text-lg  text-white'>Subjects for everyone</p>
                         <div className='p-8 mt-2 flex justify-between rounded-2xl bg-dark-navy'>
                             <div className='flex items-center gap-16'>
-                                
+
                                 <div className='flex gap-3 items-center'>
                                     <div className='flex flex-col gap-1 items-center'>
                                         <img className='h-14 w-14 object-contain' src="s1.png" alt="" />
@@ -161,4 +161,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default LandingPage
