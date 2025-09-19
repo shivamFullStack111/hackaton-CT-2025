@@ -1,12 +1,14 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Login from './auth/Login'
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import Register from './auth/Register';
 import { Toaster } from 'react-hot-toast';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import Home from './Home';
+
 
 
 
@@ -14,10 +16,11 @@ const App = () => {
   return (
     <>
 
-      <div className='container mx-auto '>
+      <div className=' '>
 
         <BrowserRouter >
           <Routes>
+            <Route path='/' element={<Home />}></Route>
             <Route path='/login' element={<Login />}></Route>
             <Route path='/register' element={<Register />}></Route>
 

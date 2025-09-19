@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Particles from "../components/Particles";
+import Particles from "../../components/Particles";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom"; // if you're using react-router
 import toast from "react-hot-toast";
 import axios from "axios";
-import { DB_URL } from "../utils";
+import { DB_URL } from "../../utils";
 import Cookies from "js-cookie"
 const Login = () => {
   const [data, setdata] = useState()

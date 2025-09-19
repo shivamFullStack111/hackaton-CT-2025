@@ -8,7 +8,10 @@ export default {
         // primary: "#7F27FF",
         "dark-navy": "#1C1E2A",
         "dark-purple": "#2B2F3E",
+        "light-purple": "#3E3D5F",
+
         "teal": "#25D9C6",
+        "dark-teal":"#18b2a2",
         "light-teal": "#36F1E0",
         black: {
           300: "#D1D1D1", // Light grayish black
