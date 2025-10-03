@@ -26,6 +26,15 @@ const Register = () => {
                 <div className="w-[60vw] p-6 max-w-[600px]  h-[90vh]  max-h-[600px] flex flex-col justify-center items-center">
                     <p className="text-white font-semibold text-3xl">Sign Up</p>
 
+                    <div className="w-[80%] ">
+                        <div className=" gap-12  w-[60] grid grid-cols-2  mt-6">
+                            <div className="bg-purple-500 text-center text-white rounded-lg px-3 py-3">College</div>
+                            <div className="bg-purple-500 text-center text-white rounded-lg px-3 py-3">School</div>
+                        </div>
+
+
+                    </div>
+
                     <div className="w-[80%] mt-6">
                         <TextField
                             id="outlined-email"
@@ -84,51 +93,7 @@ const Register = () => {
 
 
 
-                    <div className="w-[80%]  mt-6">
-
-                        <FormControl sx={{
-                            '& .MuiInputLabel-root': {
-                                color: '#fff',
-                                transition: 'all 0.3s ease',
-                            },
-                            '& .MuiInputLabel-root.Mui-focused': {
-                                color: '#25D9C6',
-                            },
-                            '& .MuiInputBase-input': { color: '#fff' },
-                            '& .MuiOutlinedInput-root': {
-                                '& fieldset': { borderColor: '#fff' },
-                                '&:hover fieldset': { borderColor: '#25D9C6' },
-                                '&.Mui-focused fieldset': { borderColor: '#25D9C6' },
-                            },
-                        }} fullWidth>
-                            <InputLabel sx={{
-                                '& .MuiInputLabel-root': {
-                                    color: '#fff',
-                                    transition: 'all 0.3s ease',
-                                },
-                                '& .MuiInputLabel-root.Mui-focused': {
-                                    color: '#25D9C6',
-                                },
-                                '& .MuiInputBase-input': { color: '#fff' },
-                                '& .MuiOutlinedInput-root': {
-                                    '& fieldset': { borderColor: '#fff' },
-                                    '&:hover fieldset': { borderColor: '#25D9C6' },
-                                    '&.Mui-focused fieldset': { borderColor: '#25D9C6' },
-                                },
-                            }} id="demo-simple-select-label">Type of Institution</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                // value={age}
-                                label="Type of Institution"
-                            // onChange={handleChange}
-                            >
-                                <MenuItem value={"college"}>College</MenuItem>
-                                <MenuItem value={"school"}>School</MenuItem>
-                            </Select>
-                        </FormControl>
-
-                    </div>
+                   
 
                     <div className="w-[80%]  mt-6">
 
