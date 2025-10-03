@@ -7,6 +7,7 @@ import CreateSession from './pages/createSession/CreateSession'
 import JoinSession from './pages/joinSession/JoinSession'
 import Home from './pages/Home/Home'
 import PersonalAIAssistant from './pages/personalizedAssistent/PersonalizedAssistent'
+import LiveRoom from './pages/liveRoom/LiveRoom'
 
 const App = () => {
   return (
@@ -18,8 +19,10 @@ const App = () => {
           <Route path="/landing-page" element={<LandingPage />}></Route>
           <Route path="/" element={<Home />}></Route>
           <Route path="/create-session" element={<CreateSession />}></Route>
-          <Route path="/join-session" element={<JoinSession />}></Route> 
-                    <Route path="/personalized-assistent" element={<PersonalAIAssistant />}></Route>
+          <Route path="/join-session" element={<JoinSession />}></Route>
+          <Route path="/personalized-assistent" element={<PersonalAIAssistant />}></Route>
+          <Route path="/room/:id" element={<LiveRoom />}></Route>
+
 
         </Routes>
       </BrowserRouter>

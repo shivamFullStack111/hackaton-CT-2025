@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import Footer from '../components/Footer'
 import { motion } from 'framer-motion'
@@ -9,14 +9,7 @@ import Header from '../components/Header';
 
 
 const LandingPage = () => {
-    // const [animationDone, setanimationDone] = useState(false)
 
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setanimationDone(true)
-    //     }, 1500);
-    // }, [])
     return (
         <div className="min-h-screen   relative w-full flex ">
             <Particles
@@ -31,10 +24,7 @@ const LandingPage = () => {
             />
 
             <div className='w-full z-10'>
-                {/* header  */}
                 <Header></Header>
-                {/* {animationDone && <> */}
-                    {/* this for responsiveness */}
                     < ResponsiveContainer >
                         <div className='flex w-full   justify-between items-center  mt-10 '>
                             <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 1, delay: 3 }} >
