@@ -8,8 +8,23 @@ import JoinSession from './pages/joinSession/JoinSession'
 import Home from './pages/Home/Home'
 import PersonalAIAssistant from './pages/personalizedAssistent/PersonalizedAssistent'
 import LiveRoom from './pages/liveRoom/LiveRoom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { setLoading, setUser } from './store/userSlice'
 
 const App = () => {
+   const { user } = useSelector(state => state.user)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(setLoading(true))
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (user) {
+      dispatch(setUser(user))
+    }
+    dispatch(setLoading(false))
+
+  }, [])
   return (
     <>
       <BrowserRouter>

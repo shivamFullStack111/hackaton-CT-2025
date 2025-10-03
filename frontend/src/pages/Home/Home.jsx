@@ -20,7 +20,9 @@ import Cookies from 'js-cookie'
 const Home = () => {
     const [profileOptionsBarOpen, setprofileOptionsBarOpen] = useState(false)
     const handleLogOut = () => {
-        alert("log out done")
+        localStorage.clear('user')
+        Cookies.remove('auth-token')
+        window.location.reload()
     }
     return (
         <div className="min-h-screen   relative w-full flex ">
@@ -149,7 +151,7 @@ const Home = () => {
                                 </div>
                             </div>
 
-                               <div className='mt-4 min-w-[350px] !bg-dark-navy p-6 rounded-2xl gap-10  '>
+                            <div className='mt-4 min-w-[350px] !bg-dark-navy p-6 rounded-2xl gap-10  '>
                                 <div className=' flex gap-3 '>
                                     <img className='h-16  w-16 rounded-full  ' src="ai.gif" alt="" />
                                     <div>
@@ -170,7 +172,7 @@ const Home = () => {
                                 </div>
                             </div>
                         </div>
-                  
+
 
                     </div>
 
