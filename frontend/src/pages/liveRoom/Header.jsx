@@ -19,7 +19,7 @@ const Header = ({ currentPage, setlanguage, settheme, setactiveUsersPopUpOpen, a
             )}
             <div className=' p-4 bg-dark-navy items-center flex justify-between  '>
                 <div className='flex gap-2 items-center'>
-                    <img className='h-10 w-10 invert brightness-0' src="/public/room.png" alt="" />
+                    <img className='h-10 w-10 ' src="/public/ai.gif" alt="" />
                     <div >
                         <p className='font-bold text-purple-500'>Python</p>
                         <p className='text-gray-300 gap-2 flex  items-center leading-4 text-sm'>

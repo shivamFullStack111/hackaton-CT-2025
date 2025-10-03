@@ -17,11 +17,11 @@ const SidebarRight = ({ currentPage, setcurrentPage, handleSendMessage, allLiveC
             {/* live chats  */}
             <motion.div initial={{ width: 0, opacity: 0 }} animate={{ width: barNumber == 1 ? 350 : 0, opacity: barNumber == 1 ? 1 : 0 }} transition={{ duration: 0.4 }} className={`w-72 relative overflow-hidden  bg-[#1c1e2ad4] ${barNumber == 1 && " p-3"} `}>
                 <div className='flex hap-2 justify-center min-w-[350px] items-center gap-2   '>
-                    <img className='h-8 w-8' src="/public/speak.png" alt="" />
+                    <img className='h-16 w-16' src="/public/chat.png" alt="" />
                     <p className='font-bold text-gray-300'>Live Chat ✨</p>
                 </div>
                 {/* messages  */}
-                <div className='border-2  h-[95%] gap-2 flex flex-col scrollbar p-5 mt-5 overflow-y-auto border-gray-700 rounded-t-[35px]'>
+                <div className='border-2  h-[95%] gap-2 flex flex-col scrollbar p-5 mt-2 overflow-y-auto border-gray-700 rounded-t-[35px]'>
                     <>
                         <div className='flex gap-2'>
                             <img className='min-h-6 max-h-6 min-w-6 max-w-6 rounded-full' src="/public/logo.png" alt="" />

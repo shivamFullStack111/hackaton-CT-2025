@@ -16,7 +16,6 @@ const Footer = () => {
                             Contact us
                         </a>
                     </div>
-                    {/* <!--End Col--> */}
                     <div className="lg:mx-auto text-left ">
                         <h4 className="text-lg text-gray-100 font-medium mb-7">Pagedone</h4>
                         <ul className="text-sm  transition-all duration-500">
@@ -26,7 +25,6 @@ const Footer = () => {
                             <li><a href="javascript:;" className=" text-gray-400 hover:text-gray-100">Features</a></li>
                         </ul>
                     </div>
-                    {/* <!--End Col--> */}
                     <div className="lg:mx-auto text-left ">
                         <h4 className="text-lg text-gray-100 font-medium mb-7">Products</h4>
                         <ul className="text-sm  transition-all duration-500">
@@ -36,7 +34,6 @@ const Footer = () => {
                             <li><a href="javascript:;" className=" text-gray-400 hover:text-gray-100">Components Library</a></li>
                         </ul>
                     </div>
-                    {/* <!--End Col--> */}
                     <div className="lg:mx-auto text-left">
                         <h4 className="text-lg text-gray-100 font-medium mb-7">Resources</h4>
                         <ul className="text-sm  transition-all duration-500">
@@ -46,7 +43,6 @@ const Footer = () => {
                             <li><a href="javascript:;" className=" text-gray-400 hover:text-gray-100">User Guide</a></li>
                         </ul>
                     </div>
-                    {/* <!--End Col--> */}
                     <div className="lg:mx-auto text-left">
                         <h4 className="text-lg text-gray-100 font-medium mb-7">Blogs</h4>
                         <ul className="text-sm  transition-all duration-500">
@@ -57,7 +53,6 @@ const Footer = () => {
                         </ul>
                     </div>
                 </div>
-                {/* <!--Grid--> */}
                 <div className="py-7 border-t border-gray-200">
                     <div className="flex items-center justify-center flex-col lg:justify-between lg:flex-row">
                         <span className="text-sm text-gray-500 ">©<a href="https://pagedone.io/">pagedone</a> 2024, All rights reserved.</span>
