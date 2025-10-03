@@ -5,15 +5,18 @@ import Register from './pages/Register'
 import LandingPage from './pages/LandingPage'
 import CreateSession from './pages/createSession/CreateSession'
 import JoinSession from './pages/joinSession/JoinSession'
-import Home from './pages/Home/Home'
 import PersonalAIAssistant from './pages/personalizedAssistent/PersonalizedAssistent'
 import LiveRoom from './pages/liveRoom/LiveRoom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { setLoading, setUser } from './store/userSlice'
+import IfLogedOut from './routes/IfLogedOut'
+import IfLogedIn from './routes/IfLogedIn'
+import Home from "./pages/Home/Home"
+
 
 const App = () => {
-   const { user } = useSelector(state => state.user)
+  const { user } = useSelector(state => state.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -29,16 +32,21 @@ const App = () => {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/register" element={<Register />}></Route>
-          <Route path="/landing-page" element={<LandingPage />}></Route>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/create-session" element={<CreateSession />}></Route>
-          <Route path="/join-session" element={<JoinSession />}></Route>
-          <Route path="/personalized-assistent" element={<PersonalAIAssistant />}></Route>
-          <Route path="/room/:id" element={<LiveRoom />}></Route>
+          {/* protected route if loged out */}
 
 
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/register" element={<Register />}></Route>
+            <Route path="/landing-page" element={<LandingPage />}></Route>
+
+          {/* protected routes if loggedin */}
+          <Route element={<IfLogedIn />}>
+            <Route path="/create-session" element={<CreateSession />}></Route>
+            <Route path="/join-session" element={<JoinSession />}></Route>
+            <Route path="/personal-assistent" element={<PersonalAIAssistant />}></Route>
+            <Route path="/room/:id" element={<LiveRoom />}></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

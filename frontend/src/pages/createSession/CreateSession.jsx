@@ -5,9 +5,15 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import { toast } from 'react-hot-toast'
+import { createRoomID } from '../../utils'
+import { DB_URL } from '../utils'
+import axios from 'axios'
 
 
 const CreateSession = () => {
+    const navigate = useNavigate();
+    const { user } = useSelector(state => state.user)
 
     const [sessionInfo, setsessionInfo] = useState({
         title: "",
@@ -33,9 +39,36 @@ const CreateSession = () => {
         aiCodeReview: false,
         recording: false
     });
-
     const onSessionCreate = async () => {
-       alert('session created')
+        // Validation
+        if (!sessionInfo.title) return toast.error("Session title is required");
+        if (!sessionInfo.subject) return toast.error("Subject is required");
+        if (!sessionInfo.gradeLevel) return toast.error("Grade level is required");
+        if (privacySetting.isPrivate && !privacySetting.password) return toast.error("Password is required for private session");
+
+        const roomId = createRoomID();
+
+        const payload = {
+            roomId,
+            sessionInfo,
+            sessionSetting,
+            privacySetting,
+            sessionFeatures,
+            userId: user?._id  // later we will assign this userid in backend for more efficiency
+        };
+
+        try {
+            const res = await axios.post(`${DB_URL}/session/create`, payload);
+            if (res.data.success) {
+                toast.success("Session created successfully!");
+                navigate(`/room/${roomId}`);
+            } else {
+                toast.error(res.data.message || "Failed to create session");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error(error.response?.data?.message || "Server error");
+        }
     };
     return (
         <>
