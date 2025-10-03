@@ -9,14 +9,12 @@ const SessionSchema = new mongoose.Schema(
       unique: true, // frontend se UUID aayega
     },
 
-    // Is session ended or active
     ended: {
       type: Boolean,
       default: false,
       required: true,
     },
 
-    // Basic Information
     sessionInfo: {
       title: { type: String, required: true },
       description: { type: String },
@@ -34,19 +32,16 @@ const SessionSchema = new mongoose.Schema(
       },
     },
 
-    // Settings
     sessionSetting: {
       duration: { type: Number, default: 30 }, // in minutes
       maxParticipants: { type: Number, default: 50 },
     },
 
-    // Privacy
     privacySetting: {
       isPrivate: { type: Boolean, default: false },
       password: { type: String }, // will be hashed
     },
 
-    // Features
     sessionFeatures: {
       liveChat: { type: Boolean, default: true },
       whiteboard: { type: Boolean, default: false },
@@ -55,7 +50,6 @@ const SessionSchema = new mongoose.Schema(
       recording: { type: Boolean, default: false },
     },
 
-    // Participnts
     participants: [
       {
         userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -73,7 +67,6 @@ const SessionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Hash session password before save
 SessionSchema.pre("save", async function (next) {
   if (this.isModified("privacySetting.password") && this.privacySetting.password) {
     const salt = await bcrypt.genSalt(10);
