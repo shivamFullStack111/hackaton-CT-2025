@@ -6,12 +6,36 @@ const UserSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    password: { type: String, required: true },
-    role: { type: String, enum: ['student', 'teacher', 'admin'], default: 'student' },
-    profilePic: { type: String },
-    bio: { type: String },
-    verified: { type: Boolean, default: false }
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    role: {
+        type: String,
+        enum: ['student', 'teacher', 'admin'],
+        default: 'student'
+    },
+    institutionType: {
+        type: String,
+        enum: ['college', 'school']
+    },
+    profilePic: {
+        type: String
+    },
+    bio: {
+        type: String
+    },
+    verified: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', UserSchema);

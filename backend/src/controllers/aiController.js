@@ -6,7 +6,6 @@ const aiController = {
         try {
             const { message, sessionType = 'general', userId } = req.body;
 
-            // Moderate the message first
             const moderation = await moderationService.moderateText(message);
             if (!moderation.allowed) {
                 return res.status(400).json({

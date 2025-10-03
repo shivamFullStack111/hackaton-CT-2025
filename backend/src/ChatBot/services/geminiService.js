@@ -12,9 +12,8 @@ class GeminiService {
 
         try {
             this.genAI = new GoogleGenerativeAI(apiKey);
-            // Use the working model name
             this.model = this.genAI.getGenerativeModel({
-                model: "gemini-2.5-flash"  // Your working model
+                model: "gemini-2.5-flash"
             });
             console.log('✅ Gemini AI service initialized with model: gemini-2.5-flash');
         } catch (error) {
@@ -40,7 +39,6 @@ class GeminiService {
         }
     }
 
-    // Grammar correction for text chat
     async provideGrammarFeedback(text) {
         const prompt = `You are an English tutor. Analyze this text for grammatical errors and provide corrections in this format:
 
@@ -54,7 +52,6 @@ Text to analyze: "${text}"`;
         return await this.generateResponse(prompt);
     }
 
-    // Pronunciation feedback for speech
     async providePronunciationFeedback(spokenText) {
         const prompt = `You are a pronunciation coach. Analyze this spoken text for pronunciation issues and provide feedback in this format:
 
@@ -68,20 +65,17 @@ Text to analyze: "${spokenText}"`;
         return await this.generateResponse(prompt);
     }
 
-    // Real-time chat correction
     async correctText(text) {
         const prompt = `Correct any spelling or grammar errors in this text and return ONLY the corrected version without any explanations: "${text}"`;
         return await this.generateResponse(prompt);
     }
 
-    // AI Tutoring for one-on-one sessions
     async provideTutoringHelp(question, subject = 'general') {
         const context = `You are a ${subject} tutor in the SkillSync platform. Provide helpful, educational, and encouraging responses to help students learn. Keep explanations clear and concise.`;
 
         return await this.generateResponse(question, context);
     }
 
-    // Content explanation
     async explainConcept(concept, level = 'beginner') {
         const prompt = `Explain this concept to a ${level} learner in simple terms: "${concept}"`;
         return await this.generateResponse(prompt);

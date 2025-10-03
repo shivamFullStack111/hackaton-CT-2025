@@ -7,9 +7,7 @@ class SocketAIService {
     }
 
     initializeAIHandlers(socket) {
-        // Real-time chat correction
         socket.on('sendMessage', async (data) => {
-            // Moderate message first
             const moderation = await moderationService.moderateText(data.message);
 
             if (!moderation.allowed) {
@@ -19,8 +17,6 @@ class SocketAIService {
                 return;
             }
 
-            // If moderation passes, proceed with message
-            // Add AI correction if enabled
             if (data.aiCorrectionEnabled) {
                 const corrected = await this.correctText(data.message);
                 data.correctedMessage = corrected;
@@ -29,7 +25,6 @@ class SocketAIService {
             socket.to(data.roomId).emit('newMessage', data);
         });
 
-        // Real-time AI assistance in rooms
         socket.on('requestAIHelp', async (data) => {
             const helpResponse = await geminiService.generateResponse(
                 data.question,

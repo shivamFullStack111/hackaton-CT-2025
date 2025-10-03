@@ -37,7 +37,6 @@ class ContentModerationService {
             };
         } catch (error) {
             console.error('Moderation API Error:', error.message);
-            // Fallback: allow content if moderation fails
             return {
                 isToxic: false,
                 allowed: true,
@@ -73,10 +72,7 @@ class ContentModerationService {
         return formatted;
     }
 
-    // For file content moderation (basic implementation)
     async moderateFileContent(fileData, fileType) {
-        // This is a basic implementation
-        // For production, you might want to use additional services
         return {
             allowed: true,
             needsReview: false,
