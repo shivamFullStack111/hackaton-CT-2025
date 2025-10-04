@@ -36,6 +36,19 @@ const LiveRoom = () => {
     const { id: roomId } = useParams();
     const [excalidrawAPI, setExcalidrawAPI] = useState(null);
 
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            const confirmationMessage = "Are you sure you want to end session? ";
+            event.returnValue = confirmationMessage;
+            return confirmationMessage;
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+
     // get session/room data 
     useEffect(() => {
         if (!roomId) return
@@ -116,6 +129,7 @@ const LiveRoom = () => {
             }
         });
 
+        
         return () => {
             socket.off("update-exceil-change");
         };
@@ -220,6 +234,7 @@ const LiveRoom = () => {
 
                     {/* sidebar right */}
                     <SidebarRight
+                        roomData={roomData}
                         setallLiveChatMessages={setallLiveChatMessages}
                         allLiveChatMessages={allLiveChatMessages}
                         handleSendMessage={handleSendMessage}

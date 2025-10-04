@@ -10,7 +10,7 @@ const Header = () => {
     const [isAnimateComplete, setisAnimateComplete] = useState(false)
     const [notificationSideBarOpen, setnotificationSideBarOpen] = useState(false)
     const location = useLocation()
-    const isLandingPage = location.pathname === "/landing-page"
+    const isLandingPage = location.pathname === "/"
     const { user } = useSelector(state => state.user)
 
     useEffect(() => {
@@ -63,13 +63,13 @@ const Header = () => {
                             </motion.div>
                         </motion.div>
                     ) : (
-                        <Link to={'/'} className='flex gap-2 items-center z-40'>
+                        <Link to={'/home'} className='flex gap-2 items-center z-40'>
                             <img className='h-14 object-contain rounded-full w-14' src="logo.png" alt="logo" />
                             <p className='text-2xl text-white font-extrabold'>SkillSync</p>
                         </Link>
                     )}
 
-                    {!location?.pathname == "/landing-page" && <div className='flex gap-8 text-gray-400 '>
+                    {!location?.pathname == "/" && <div className='flex gap-8 text-gray-400 '>
                         <Link to={'/'} className='hover:text-gray-300'>Home</Link>
                         <Link to={'/discover'} className='hover:text-gray-300'>Discover</Link>
                         <Link to={'/community'} className='hover:text-gray-300'>Community</Link>

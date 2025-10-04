@@ -140,47 +140,7 @@ const CreateSession = () => {
                                     </div>
                                 </div>
 
-                                <div className="mb-8">
-                                    <h2 className="text-2xl font-bold text-white mb-6">Session Settings</h2>
-
-                                    <div className="grid grid-cols-2 gap-6">
-                                        <div>
-                                            <label className="block text-white text-lg font-semibold mb-3">Duration (minutes)</label>
-                                            <div className="bg-gray-750 border border-gray-600 rounded-xl p-4 text-white text-lg">
-                                                <input type="number" onChange={(e) => setsessionSetting(p => ({ ...p, duration: e.target.value }))} value={sessionSetting?.duration} className='outline-none bg-transparent h-full w-full text-gray-300' />
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <label className="block text-white text-lg font-semibold mb-3">Max Participants</label>
-                                            <div className="bg-gray-750 border border-gray-600 rounded-xl p-4 text-white text-lg">
-                                                <input type="number" onChange={(e) => setsessionSetting(p => ({ ...p, maxParticipants: e.target.value }))} value={sessionSetting?.maxParticipants} className='outline-none bg-transparent h-full w-full text-gray-300' />
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="mb-8">
-                                    <h2 className="text-2xl font-bold text-white mb-6">Privacy Settings</h2>
-
-                                    <div className="flex items-center justify-between bg-gray-750 border border-gray-600 rounded-xl p-4">
-                                        <div>
-                                            <div className="text-white text-lg font-semibold">Private Session</div>
-                                            <div className="text-gray-400 text-sm">Require password to join</div>
-                                        </div>
-                                        <div style={{ backgroundColor: privacySetting?.isPrivate ? '#9333ea' : "transparent" }} onClick={() => setprivacySetting(p => ({ ...p, isPrivate: p?.isPrivate ? !p.isPrivate : true }))} className="w-12 h-6 border cursor-pointer bg-purple-600 rounded-full flex items-center ">
-                                            <motion.div initial={{ x: privacySetting?.isPrivate ? 19 : 0 }} transition={{ duration: 0.2 }} animate={{ x: privacySetting?.isPrivate ? 19 : 0 }} className="w-5 h-5 bg-white rounded-full mr-1 ml-1"></motion.div>
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-4">
-                                        <label className="block text-white text-lg font-semibold mb-3">Session Password</label>
-                                        <div className="bg-gray-750 border border-gray-600 rounded-xl p-4 text-white text-lg">
-                                            <input type="password" onChange={(e) => setprivacySetting(p => ({ ...p, password: e.target.value }))} value={privacySetting?.password} className='outline-none bg-transparent h-full w-full text-gray-300' />
-                                        </div>
-                                    </div>
-                                </div>
+                             
                             </div>
                         </div>
 

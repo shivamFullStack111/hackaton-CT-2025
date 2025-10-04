@@ -35,10 +35,10 @@ const App = () => {
           {/* protected route if loged out */}
 
 
-            <Route path="/" element={<Home />}></Route>
+            <Route path="/" element={<LandingPage />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
-            <Route path="/landing-page" element={<LandingPage />}></Route>
+            <Route path="/home" element={<Home />}></Route>
 
           {/* protected routes if loggedin */}
           <Route element={<IfLogedIn />}>

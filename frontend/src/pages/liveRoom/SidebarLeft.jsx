@@ -29,10 +29,10 @@ const SidebarLeft = ({ roomData }) => {
             <div className='flex  '>
                 <div className="flex gap-4 flex-col  py-4 bg-dark-navy ">
                     <div title='Ai code reviewer' onClick={() => setbarNumber(p => (p == 1 ? 0 : 1))} className={`flex cursor-pointer border-dark-navy text-white  border-l-4 ${barNumber == 1 && " text-purple-500 !border-purple-500"}   justify-center p-4`}>
-                        <MdReviews className="text-3xl"></MdReviews>
+                        <MdReviews className="text-3xl text-gray-500"></MdReviews>
                     </div>
                     <div title='Ai notes generator' className={`flex cursor-pointer border-dark-navy text-white  border-l-4    justify-center p-4`}>
-                        <GrNotes className="text-3xl"></GrNotes>
+                        <GrNotes className="text-3xl text-gray-500"></GrNotes>
                     </div>
                     {user?._id == roomData?.createdBy && <div title='Ai quiz generator' className={`flex cursor-pointer border-dark-navy text-white  border-l-4    justify-center p-4`}>
                         <RiAiGenerate2 className="text-3xl"></RiAiGenerate2>

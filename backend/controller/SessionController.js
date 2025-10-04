@@ -23,7 +23,7 @@ const getAllSessions = async (req, res) => {
         if (req.query.subject) filter["sessionInfo.subject"] = req.query.subject;
         if (req.body?.ended == true || req.body?.ended == false) filter["ended"] = req.body?.ended;
 
-        const sessions = await Session.find(filter).sort({ createdAt: -1 });
+        const sessions = await Session.find(filter).populate("createdBy").sort({ createdAt: -1 });
         res.json(sessions);
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -33,8 +33,8 @@ const getAllSessions = async (req, res) => {
 const getSessionById = async (req, res) => {
     try {
         const session = await Session.findOne({ roomId: req.params.roomId });
-        if (!session) return res.status(404).json({ success: false, message: "Session not found" });
-        res.json(session);
+        if (!session) return res.json({ success: false, message: "Session not found" });
+        res.json({success:true,session});
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }

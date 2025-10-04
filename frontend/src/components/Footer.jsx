@@ -12,9 +12,7 @@ const Footer = () => {
                         </div>
 
                         <p className="py-8 text-sm text-gray-500 lg:max-w-xs text-center lg:text-left">Trusted in more than 100 countries & 5 million customers. Have any query ?</p>
-                        <a href="javascript:;" className="py-2.5 px-5 h-9 block w-fit bg-indigo-600 rounded-full shadow-sm text-xs text-white mx-auto transition-all  duration-500 hover:bg-indigo-700 lg:mx-0">
-                            Contact us
-                        </a>
+
                     </div>
                     <div className="lg:mx-auto text-left ">
                         <h4 className="text-lg text-gray-100 font-medium mb-7">Pagedone</h4>

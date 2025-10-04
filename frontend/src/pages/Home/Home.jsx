@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Particles from '../../components/Particles'
 import { Link } from 'react-router-dom'
 import ResponsiveContainer from '../../components/ResponsiveContainer'
@@ -14,16 +14,31 @@ import { FaChevronDown } from "react-icons/fa6";
 import { CiLogout, CiStar } from "react-icons/ci";
 import { motion } from 'framer-motion'
 import Cookies from 'js-cookie'
+import { DB_URL } from '../../utils'
+import axios from "axios"
 
 
 
 const Home = () => {
     const [profileOptionsBarOpen, setprofileOptionsBarOpen] = useState(false)
+    const [allSession, setallSession] = useState([])
+
     const handleLogOut = () => {
         localStorage.clear('user')
         Cookies.remove('auth-token')
         window.location.reload()
     }
+
+    useEffect(() => {
+
+        const getSession = async () => {
+            const res = await axios.get(DB_URL + '/session/get-all')
+            setallSession(res.data)
+        }
+
+        getSession()
+
+    }, [])
     return (
         <div className="min-h-screen   relative w-full flex ">
             {/* Background Particles */}
@@ -168,7 +183,7 @@ const Home = () => {
                                     <div className='flex items-center gap-1'>
                                         <FaStar size={23} className='text-yellow-500' /><p className='text-sm font-semibold text-white'>4.5 (ratings)</p>
                                     </div>
-                                    <Link to={"/personal-assistent"} className='bg-purple-600 px-6  ml-auto py-1 rounded-full text-white font-bold hover:scale-105 transition-all duration-300'>Join</Link>
+                                    <Link to={"/"} className='bg-gray-600 px-6  ml-auto py-1 rounded-full text-white font-bold hover:scale-105 transition-all duration-300'>Soon...</Link>
                                 </div>
                             </div>
                         </div>
@@ -177,132 +192,49 @@ const Home = () => {
                     </div>
 
                     <div className='mt-12 '>
-                        <p className='font-bold  text-lg text-white'>🔥 Open Rooms</p>
+                        <p className='font-bold  text-lg text-white'>🔥 Open Rooms {allSession.length}</p>
                         <div className='flex pt-3 overflow-x-scroll hide-scrollbar scrollbar pb-4 gap-12 px-6'>
 
 
-                            <div className="bg-gray-750 bg-dark-navy rounded-xl p-6 border min-w-[500px] border-gray-600 hover:border-purple-500 transition-colors duration-200">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div>
-                                        <h3 className="text-white text-xl font-semibold mb-2">Advanced Mathematics Workshop</h3>
-                                        <p className="text-gray-400 text-sm">Dr. Shivam</p>
+                            {allSession?.map((sess) => {
+                                return <div className="bg-gray-750 bg-dark-navy rounded-xl p-6 border min-w-[500px] border-gray-600 hover:border-purple-500 transition-colors duration-200">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div>
+                                            <h3 className="text-white text-xl font-semibold mb-2">{sess?.sessionInfo?.title}</h3>
+                                            <p className="text-gray-400 text-sm">{sess?.createdBy?.name}</p>
+                                        </div>
+                                        <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                            Live
+                                        </span>
                                     </div>
-                                    <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                                        Live
-                                    </span>
-                                </div>
 
-                                <div className="flex items-center justify-between text-gray-300 text-sm mb-4">
-                                    <div className="flex items-center gap-4">
-                                        <span>🔴 45/50 joined</span>
-                                        <span>⏱️ 30 mins left</span>
+                                    <div className="flex items-center justify-between text-gray-300 text-sm mb-4">
+                                        <div className="flex items-center gap-4">
+                                            <span className='z-50'>
+                                                {sess?.sessionInfo?.gradeLevel}
+                                                {sess?.sessionInfo?.gradeLevel == "primary" && "Grades 1 – 5 "}
+                                                {sess?.sessionInfo?.gradeLevel == "middle" && "Grades 6 – 8 "}
+                                                {sess?.sessionInfo?.gradeLevel == "secondary" && "Grades 9 – 10 "}
+                                                {sess?.sessionInfo?.gradeLevel == "senior-secondary" && "Grades 11 – 12 "}
+                                            </span>
+                                        </div>
+                                        <span className="text-purple-400 font-semibold">{sess?.roomId}</span>
                                     </div>
-                                    <span className="text-purple-400 font-semibold">#X7B9-K2M4</span>
-                                </div>
-
-                                <div className="flex gap-2 mb-4">
-                                    <span className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">Whiteboard</span>
-                                    <span className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">Code Editor</span>
-                                    <span className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">Live Chat</span>
-                                </div>
-                                <Link to={'/join-session'}>
-                                    <button className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors duration-200 font-semibold">
-                                        Join Session
-                                    </button>
-                                </Link>
-                            </div>
-
-
-                            <div className="bg-gray-750 bg-dark-navy rounded-xl p-6 border min-w-[500px] border-gray-600 hover:border-purple-500 transition-colors duration-200">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div>
-                                        <h3 className="text-white text-xl font-semibold mb-2">Advanced Mathematics Workshop</h3>
-                                        <p className="text-gray-400 text-sm">Dr. Shivam</p>
+                                      <div className="flex items-center justify-between text-gray-300 text-sm mb-4">
+                                        <span className="text-purple-400 font-semibold">{sess?.sessionInfo?.description}</span>
                                     </div>
-                                    <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                                        Live
-                                    </span>
-                                </div>
 
-                                <div className="flex items-center justify-between text-gray-300 text-sm mb-4">
-                                    <div className="flex items-center gap-4">
-                                        <span>🔴 45/50 joined</span>
-                                        <span>⏱️ 30 mins left</span>
-                                    </div>
-                                    <span className="text-purple-400 font-semibold">#X7B9-K2M4</span>
+                                
+                                    <Link to={`/room/${sess?.roomId}`}>
+                                        <button className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors duration-200 font-semibold">
+                                            Join Session
+                                        </button>
+                                    </Link>
                                 </div>
+                            })}
 
-                                <div className="flex gap-2 mb-4">
-                                    <span className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">Whiteboard</span>
-                                    <span className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">Code Editor</span>
-                                    <span className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">Live Chat</span>
-                                </div>
-                                <Link to={'/join-session'}>
-                                    <button className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors duration-200 font-semibold">
-                                        Join Session
-                                    </button>
-                                </Link>
-                            </div>
-                            <div className="bg-gray-750 bg-dark-navy rounded-xl p-6 border min-w-[500px] border-gray-600 hover:border-purple-500 transition-colors duration-200">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div>
-                                        <h3 className="text-white text-xl font-semibold mb-2">Advanced Mathematics Workshop</h3>
-                                        <p className="text-gray-400 text-sm">Dr. Shivam</p>
-                                    </div>
-                                    <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                                        Live
-                                    </span>
-                                </div>
 
-                                <div className="flex items-center justify-between text-gray-300 text-sm mb-4">
-                                    <div className="flex items-center gap-4">
-                                        <span>🔴 45/50 joined</span>
-                                        <span>⏱️ 30 mins left</span>
-                                    </div>
-                                    <span className="text-purple-400 font-semibold">#X7B9-K2M4</span>
-                                </div>
 
-                                <div className="flex gap-2 mb-4">
-                                    <span className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">Whiteboard</span>
-                                    <span className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">Code Editor</span>
-                                    <span className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">Live Chat</span>
-                                </div>
-                                <Link to={'/join-session'}>
-                                    <button className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors duration-200 font-semibold">
-                                        Join Session
-                                    </button>
-                                </Link>
-                            </div>
-                            <div className="bg-gray-750 bg-dark-navy rounded-xl p-6 border min-w-[500px] border-gray-600 hover:border-purple-500 transition-colors duration-200">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div>
-                                        <h3 className="text-white text-xl font-semibold mb-2">Advanced Mathematics Workshop</h3>
-                                        <p className="text-gray-400 text-sm">Dr. Shivam</p>
-                                    </div>
-                                    <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                                        Live
-                                    </span>
-                                </div>
-
-                                <div className="flex items-center justify-between text-gray-300 text-sm mb-4">
-                                    <div className="flex items-center gap-4">
-                                        <span>🔴 45/50 joined</span>
-                                        <span>⏱️ 30 mins left</span>
-                                    </div>
-                                    <span className="text-purple-400 font-semibold">#X7B9-K2M4</span>
-                                </div>
-
-                                <div className="flex gap-2 mb-4">
-                                    <span className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">Whiteboard</span>
-                                    <span className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">Code Editor</span>
-                                    <span className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">Live Chat</span>
-                                </div>
-                                <Link to={'/join-session'}>
-                                    <button className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors duration-200 font-semibold">
-                                        Join Session
-                                    </button>
-                                </Link>
-                            </div>
 
 
 

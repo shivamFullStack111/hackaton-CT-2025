@@ -6,17 +6,13 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import ReactMarkDown from 'react-markdown'
 
-
-
 const PersonalAIAssistant = () => {
-    // UI state
     const [showInfoPopup, setShowInfoPopup] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
     const [conversationStarted, setConversationStarted] = useState(false);
 
-    // user profile state for personalization
     const [userData, setUserData] = useState({
         userId: JSON.parse(localStorage.getItem("user"))._id,
         fullName: '',
@@ -29,10 +25,8 @@ const PersonalAIAssistant = () => {
         weeklyStudyTime: '',
     });
 
-    // store initialized profile returned from backend (if backend returns any)
     const [initializedProfile, setInitializedProfile] = useState(null);
 
-    // quick questions shown in UI
     const quickQuestions = [
         "Give me a 4-week study plan to become a Full Stack Developer.",
         "What are best resources for learning system design?",
@@ -43,14 +37,12 @@ const PersonalAIAssistant = () => {
 
     const messagesEndRef = useRef(null);
 
-    // scroll to bottom whenever messages change
     useEffect(() => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
     }, [messages, isLoading]);
 
-    // ----- Helpers for messages -----
     const pushMessage = ({ text, isAI = false }) => {
         setMessages(prev => [
             ...prev,
@@ -91,7 +83,7 @@ const PersonalAIAssistant = () => {
                 body: JSON.stringify(payload),
             });
 
-            console.log(res.data,'iiiiiiiiiiiiiiiiiiii999999999999999999999')
+            console.log(res.data, 'iiiiiiiiiiiiiiiiiiii999999999999999999999')
 
             if (!res.ok) {
                 const text = await res.text();
@@ -100,20 +92,18 @@ const PersonalAIAssistant = () => {
             }
 
             const data = await res.json();
-            // backend may return enriched profile or success flag — store it if available
             setInitializedProfile(data.profile || data);
             setConversationStarted(true);
             setShowInfoPopup(false);
 
-            // Add a friendly AI welcome message using the profile name if available
             const name = userData.fullName || 'Student';
             pushMessage({
                 isAI: true,
                 text: `Hey ${name}! Your learning assistant is ready. Ask me anything about ${userData.careerInterest || 'your goals'} — I can create study plans, suggest projects, and explain concepts step-by-step.`
             });
         } catch (err) {
-            console.log(err,'[[[[[[[[[[[[[[[[[[[[[[[[[[[[------');
-            
+            console.log(err, '[[[[[[[[[[[[[[[[[[[[[[[[[[[[------');
+
             alert('Something went wrong while initializing the profile. Check the backend or console for details.');
         } finally {
             setIsLoading(false);
@@ -169,7 +159,6 @@ const PersonalAIAssistant = () => {
         <>
             <Header />
 
-            {/* Enhanced Info Popup */}
             {showInfoPopup && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl h-[95vh] overflow-y-auto p-8 border border-purple-500/30 max-w-2xl w-full mx-4 shadow-2xl">
@@ -194,7 +183,7 @@ const PersonalAIAssistant = () => {
                                             value={userData.fullName}
                                             onChange={handleInputChange}
                                             required
-                                            className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-white w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
+                                            className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-black w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
                                             placeholder="Enter your full name"
                                         />
                                     </div>
@@ -205,7 +194,7 @@ const PersonalAIAssistant = () => {
                                             name="age"
                                             value={userData.age}
                                             onChange={handleInputChange}
-                                            className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-white w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
+                                            className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-black w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
                                             placeholder="Your age"
                                         />
                                     </div>
@@ -218,7 +207,7 @@ const PersonalAIAssistant = () => {
                                         name="currentlyPursuing"
                                         value={userData.currentlyPursuing}
                                         onChange={handleInputChange}
-                                        className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-white w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
+                                        className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-black w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
                                         placeholder="e.g., Computer Science Degree"
                                     />
                                 </div>
@@ -231,7 +220,7 @@ const PersonalAIAssistant = () => {
                                         value={userData.careerInterest}
                                         onChange={handleInputChange}
                                         required
-                                        className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-white w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
+                                        className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-black w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
                                         placeholder="e.g., Full Stack Developer"
                                     />
                                 </div>
@@ -243,7 +232,7 @@ const PersonalAIAssistant = () => {
                                         name="strongSubjects"
                                         value={userData.strongSubjects}
                                         onChange={handleInputChange}
-                                        className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-white w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
+                                        className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-black w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
                                         placeholder="e.g., Mathematics, Programming"
                                     />
                                 </div>
@@ -255,7 +244,7 @@ const PersonalAIAssistant = () => {
                                         name="areasOfImprovement"
                                         value={userData.areasOfImprovement}
                                         onChange={handleInputChange}
-                                        className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-white w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
+                                        className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-black w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
                                         placeholder="e.g., Algorithms, System Design"
                                     />
                                 </div>
@@ -267,7 +256,7 @@ const PersonalAIAssistant = () => {
                                         name="learningPreferences"
                                         value={userData.learningPreferences}
                                         onChange={handleInputChange}
-                                        className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-white w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
+                                        className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-black w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
                                         placeholder="e.g., Project-based learning, Video tutorials"
                                     />
                                 </div>
@@ -279,7 +268,7 @@ const PersonalAIAssistant = () => {
                                         name="weeklyStudyTime"
                                         value={userData.weeklyStudyTime}
                                         onChange={handleInputChange}
-                                        className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-white w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
+                                        className="bg-gray-750 border-2 border-gray-600 rounded-2xl p-4 text-black w-full focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
                                         placeholder="e.g., 10-15 hours per week"
                                     />
                                 </div>
@@ -306,7 +295,6 @@ const PersonalAIAssistant = () => {
                 </div>
             )}
 
-            {/* Main Chat Interface */}
             <div className="min-h-screen bg-dark-navy py-8 px-4 sm:px-6">
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-12">
@@ -319,7 +307,6 @@ const PersonalAIAssistant = () => {
                     </div>
 
                     <div className="flex flex-col lg:flex-row gap-8">
-                        {/* Sidebar */}
                         <div className="w-full lg:w-96 flex-shrink-0">
                             <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700 mb-6">
                                 <div className="text-center mb-6">
@@ -392,14 +379,13 @@ const PersonalAIAssistant = () => {
                                         </div>
                                     </div>
 
-                                  
+
                                 </div>
                             </div>
 
-                       
+
                         </div>
 
-                        {/* Main Chat Area */}
                         <div className="flex-1">
                             <div className="bg-gray-800 rounded-2xl border border-gray-700 h-[700px] flex flex-col">
                                 <div className="p-6 border-b border-gray-700">
@@ -420,7 +406,6 @@ const PersonalAIAssistant = () => {
                                     </div>
                                 </div>
 
-                                {/* Messages Area */}
                                 <div className="flex-1 overflow-y-auto p-6 space-y-6">
                                     {messages.length === 0 ? (
                                         <div className="text-center text-gray-500 h-full flex items-center justify-center">
@@ -472,7 +457,6 @@ const PersonalAIAssistant = () => {
                                     <div ref={messagesEndRef} />
                                 </div>
 
-                                {/* Quick Questions */}
                                 {messages.length > 0 && (
                                     <div className="px-6 pb-4">
                                         <div className="text-center">
@@ -492,7 +476,6 @@ const PersonalAIAssistant = () => {
                                     </div>
                                 )}
 
-                                {/* Input Area */}
                                 <div className="p-6 border-t border-gray-700">
                                     <div className="flex gap-4">
                                         <div className="flex-1 relative">
@@ -501,7 +484,7 @@ const PersonalAIAssistant = () => {
                                                 onChange={(e) => setInputMessage(e.target.value)}
                                                 onKeyPress={handleKeyPress}
                                                 placeholder="Type your message here..."
-                                                className="w-full bg-gray-750 border border-gray-600 rounded-2xl p-4 pr-12 text-white resize-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
+                                                className="w-full bg-gray-750 border border-gray-600 rounded-2xl p-4 pr-12 text-black resize-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
                                                 rows="2"
                                             />
                                         </div>

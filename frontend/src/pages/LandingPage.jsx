@@ -43,7 +43,7 @@ const LandingPage = () => {
                                 </div>
                                 <p className='text-gray-300 font-semibold mt-2'>Unlock your potential with interactive live</p>
                                 <p className='text-gray-300 mb-4 font-semibold'>AI-powered personalized learning</p>
-                                <Link to={'/'} className='p-2 px-3 mt-8 rounded-lg animate-bounce hover:bg-dark-teal bg-teal text-white text-sm font-semibold  '>Start Your Journey</Link>
+                                <Link to={'/home'} className='p-2 px-3 mt-8 rounded-lg animate-bounce hover:bg-dark-teal bg-teal text-white text-sm font-semibold  '>Start Your Journey</Link>
                             </motion.div>
                             <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1.5, delay: 3 }}>
                                 <img className='h-72 object-contain' src="4person1.png" alt="" />
@@ -152,12 +152,8 @@ const LandingPage = () => {
                                     </div>
                                 </div>
                                 <div className='flex flex-col justify-center gap-2'>
-                                    <p className='text-white font-bold text-xl'>Join SkillSync Today!</p>
-                                    <div className='flex gap-5 '>
-                                        <Link className='px-4 p-2 font-semibold hover:scale-105 transition-all duration-300 text-sm bg-teal text-white rounded-lg'>Join</Link>
-                                        <Link className='px-4 p-2 font-semibold text-sm border transition-all duration-300  hover:scale-105 border-purple-600  text-white rounded-lg'>Know more</Link>
-
-                                    </div>
+                                    <p className='text-white font-bold text-xl'> SkillSync</p>
+                                   
                                 </div>
                             </div>
                         </div>

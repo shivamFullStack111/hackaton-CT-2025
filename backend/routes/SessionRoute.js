@@ -2,9 +2,9 @@ const express = require("express")
 const {
   createSession,
   getAllSessions,
-  getSessionById,
   joinSession,
   endSession,
+  getSessionById,
 } = require("../controller/SessionController")
 
 const sessionRoutes = express.Router();
