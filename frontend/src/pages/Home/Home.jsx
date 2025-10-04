@@ -16,12 +16,14 @@ import { motion } from 'framer-motion'
 import Cookies from 'js-cookie'
 import { DB_URL } from '../../utils'
 import axios from "axios"
+import { useSelector } from 'react-redux'
 
 
 
 const Home = () => {
     const [profileOptionsBarOpen, setprofileOptionsBarOpen] = useState(false)
     const [allSession, setallSession] = useState([])
+    const {user} = useSelector(state=>state.user)
 
     const handleLogOut = () => {
         localStorage.clear('user')
@@ -62,14 +64,14 @@ const Home = () => {
                     <div className=' w-full my-12 '>
                         <div >
                             <div className='flex relative justify-between'>
-                                <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.5 }} className='text-4xl font-bold text-white'>Welcome back, Shivam🚀</motion.div>
+                                <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.5 }} className='text-4xl font-bold text-white'>Welcome back, {user?.name}</motion.div>
                                 <div>
                                     {/* profile button  */}
                                     <div className='relative '>
                                         <div onClick={() => setprofileOptionsBarOpen(p => !p)} className='flex absolute -top-6 cursor-pointer right-0 gap-2 items-center '>
                                             <img className='h-10 w-10 rounded-full' src="f1.png" alt="" />
                                             <div className='flex gap-2 items-center'>
-                                                <p className='font-bold text-white'>Shivam</p>
+                                                <p className='font-bold text-white'> {user?.name}</p>
                                                 <motion.div initial={{ rotate: 0 }} transition={{ duration: 0.2 }} animate={{ rotate: profileOptionsBarOpen ? 180 : 0 }}>
                                                     <FaChevronDown className='text-white' />
                                                 </motion.div>
@@ -80,7 +82,7 @@ const Home = () => {
                                         <motion.div initial={{ height: 0, width: 0, opacity: 0 }} animate={{ height: profileOptionsBarOpen ? 110 : 0, width: profileOptionsBarOpen ? 300 : 0, opacity: profileOptionsBarOpen ? 1 : 0 }} className='absolute overflow-hidden w-72 h-60 bg-dark-navy rounded-2xl  right-0 top-5'>
                                             <div className='flex gap-2 p-2 items-center'>
                                                 <img className='h-12 w-12' src="s3.png" alt="" />
-                                                <p className='text-white font-bold text-lg'>Shivam</p>
+                                                <p className='text-white font-bold text-lg'> {user?.name}</p>
                                             </div>
                                             <p className='border-b-2 border-gray-600'></p>
                                             <div onClick={handleLogOut} className='cursor-pointer p-2 flex items-center gap-3 text-gray-300 hover:text-red-400  '><CiLogout></CiLogout><p>Log out</p></div>
