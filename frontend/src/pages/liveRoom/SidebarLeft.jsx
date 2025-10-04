@@ -35,7 +35,7 @@ const SidebarLeft = ({ roomData }) => {
                         <GrNotes className="text-3xl text-gray-500"></GrNotes>
                     </div>
                     {user?._id == roomData?.createdBy && <div title='Ai quiz generator' className={`flex cursor-pointer border-dark-navy text-white  border-l-4    justify-center p-4`}>
-                        <RiAiGenerate2 className="text-3xl"></RiAiGenerate2>
+                        <RiAiGenerate2 className="text-3xl text-gray-500"></RiAiGenerate2>
                     </div>}
 
 

@@ -56,7 +56,7 @@ const LiveRoom = () => {
         const getRoomData = async () => {
             try {
                 const res = await axios.get(DB_URL + '/session/' + roomId)
-                setroomData(res.data)
+                setroomData(res.data?.session)
             } catch (error) {
                 toast.error(error.message)
             }
@@ -134,6 +134,7 @@ const LiveRoom = () => {
             socket.off("update-exceil-change");
         };
     }, [excalidrawAPI]);
+
 
     // WHITEBOARD = handle local change
     const handleExceilDrawChange = (elements) => {

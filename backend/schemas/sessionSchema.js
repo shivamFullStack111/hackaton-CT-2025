@@ -44,8 +44,8 @@ const SessionSchema = new mongoose.Schema(
 
     sessionFeatures: {
       liveChat: { type: Boolean, default: true },
-      whiteboard: { type: Boolean, default: false },
-      codeEditor: { type: Boolean, default: false },
+      whiteboard: { type: Boolean, default: true },
+      codeEditor: { type: Boolean, default: true },
       aiCodeReview: { type: Boolean, default: false },
       recording: { type: Boolean, default: false },
     },

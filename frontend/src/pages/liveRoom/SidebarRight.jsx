@@ -8,17 +8,19 @@ import { FaChalkboardTeacher } from "react-icons/fa";
 import { useSelector } from 'react-redux'
 
 
-const SidebarRight = ({ currentPage, setcurrentPage, handleSendMessage, allLiveChatMessages, setallLiveChatMessages }) => {
+const SidebarRight = ({ currentPage, setcurrentPage, handleSendMessage, allLiveChatMessages, setallLiveChatMessages, roomData }) => {
     const [barNumber, setbarNumber] = useState(0)
     const [inputValue, setinputValue] = useState('')
     const { user } = useSelector(state => state.user)
+
+    const sessionFeatures = roomData?.sessionFeatures
 
     return (
         <div className='flex  '>
             {/* live chats  */}
             <motion.div initial={{ width: 0, opacity: 0 }} animate={{ width: barNumber == 1 ? 350 : 0, opacity: barNumber == 1 ? 1 : 0 }} transition={{ duration: 0.4 }} className={`w-72 relative overflow-hidden  bg-[#1c1e2ad4] ${barNumber == 1 && " p-3"} `}>
                 <div className='flex hap-2 justify-center min-w-[350px] items-center gap-2   '>
-                    <img className='h-8 w-8' src="/public/speak.png" alt="" />
+                    <img className='h-8 w-8' src="/public/ai.gif" alt="" />
                     <p className='font-bold text-gray-300'>Live Chat ✨</p>
                 </div>
                 {/* messages  */}
@@ -40,7 +42,7 @@ const SidebarRight = ({ currentPage, setcurrentPage, handleSendMessage, allLiveC
                                     {/* <img className='min-h-6 max-h-6 min-w-6 max-w-6 rounded-full' src="/public/logo.png" alt="" /> */}
                                     <div className='text-sm ml-auto max-w-[80%] min-w-[50%] text-gray-800 bg-purple-300 p-2 rounded-xl '>
                                         <p>
-                                            {msg?.message}   
+                                            {msg?.message}
                                         </p>
                                     </div>
                                 </div>
@@ -70,20 +72,25 @@ const SidebarRight = ({ currentPage, setcurrentPage, handleSendMessage, allLiveC
 
             </motion.div>
             <div className="flex gap-4 flex-col  py-4 bg-dark-navy ">
-                <div onClick={() => setcurrentPage('whiteboard')} className={`text-white  ${currentPage == "whiteboard" && " !text-purple-500 "} flex  cursor-pointer    justify-center p-4`}>
+                {sessionFeatures?.whiteboard && <div onClick={() => setcurrentPage('whiteboard')} className={`text-white  ${currentPage == "whiteboard" && " !text-purple-500 "} flex  cursor-pointer    justify-center p-4`}>
                     <FaChalkboardTeacher title='Whiteboard' className="text-3xl"></FaChalkboardTeacher>
-                </div>
-                <div onClick={() => setcurrentPage('editor')} className={`text-white  ${currentPage == "editor" && " !text-purple-500 "} flex cursor-pointer  border-r-4  text-white border-dark-navy justify-center p-4`}>
-                    <FaCode title="Code Editor" className="text-3xl"></FaCode >
-                </div>
+                </div>}
+
+                {sessionFeatures?.codeEditor &&
+                    <div onClick={() => setcurrentPage('editor')} className={`text-white  ${currentPage == "editor" && " !text-purple-500 "} flex cursor-pointer  border-r-4  text-white border-dark-navy justify-center p-4`}>
+                        <FaCode title="Code Editor" className="text-3xl"></FaCode >
+                    </div>}
+
 
                 <div className='mt-auto'>
                     <div onClick={() => setcurrentPage("quiz")} className={`flex  mt-auto cursor-pointer  text-white   ${currentPage == "quiz" && " !text-purple-500 "}  justify-center p-4`}>
                         <MdQuiz title='Quiz Test' className="text-3xl"></MdQuiz>
                     </div>
-                    <div onClick={() => setbarNumber(p => (p == 1 ? 0 : 1))} className="flex mt-auto cursor-pointer  text-white  justify-center p-4">
+
+                    {sessionFeatures?.liveChat && <div onClick={() => setbarNumber(p => (p == 1 ? 0 : 1))} className="flex mt-auto cursor-pointer  text-white  justify-center p-4">
                         <FaRegMessage title='Live Chats' className="text-3xl"></FaRegMessage>
-                    </div>
+                    </div>}
+
                 </div>
 
             </div>

@@ -76,7 +76,7 @@ const Header = () => {
                     </div>}
 
                     {user && <div className='flex gap-4 items-center mr-4 '>
-                        <Link to={'/sessions'} className=' p-2 bg-gray-600 text-white flex gap-2 items-center rounded-md hover:text-purple-500'><RxDashboard size={20} /> <p className='font-semibold text-sm text-gray-400'>Dashboard</p></Link>
+                        {/* <Link to={'/sessions'} className=' p-2 bg-gray-600 text-white flex gap-2 items-center rounded-md hover:text-purple-500'><RxDashboard size={20} /> <p className='font-semibold text-sm text-gray-400'>Dashboard</p></Link> */}
                         <div
                             className='relative cursor-pointer  p-2 rounded-lg border border-purple-600'>
                             <FaRegBell onClick={()=>setnotificationSideBarOpen(true)} className='text-purple-500'></FaRegBell>

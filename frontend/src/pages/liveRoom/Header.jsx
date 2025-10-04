@@ -84,8 +84,8 @@ const Header = ({ currentPage, setlanguage, settheme, setactiveUsersPopUpOpen, r
 
                         <FaAngleDown className='   -translate-x-10 text-lg'></FaAngleDown>
                     </div>
-                    <FaBell className='text-2xl text-white'></FaBell>
-                    <IoSettingsOutline className='text-2xl text-white'></IoSettingsOutline>
+                    <FaBell className='text-2xl text-gray-500'></FaBell>
+                    <IoSettingsOutline className='text-2xl text-gray-500'></IoSettingsOutline>
 
                 </div>
 
