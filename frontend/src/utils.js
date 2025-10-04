@@ -2,7 +2,7 @@
 import { customAlphabet } from "nanoid";
 
 
-export const DB_URL= "htt://localhost:8888/api"
+export const DB_URL= "http://localhost:8888/api"
 
 
 

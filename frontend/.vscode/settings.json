@@ -1,0 +1,19 @@
+{
+  "tailwindCSS.tailwindConfig": "./tailwind.config.js",
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+  "editor.inlineSuggest.enabled": true,
+  "tailwindCSS.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["className\\s*=\\s*\"([^\"]*)\"", "[\"'`]([^\"'`]*)[\"'`]"],
+    ["className\\s*=\\s*'([^']*)'", "[\"'`]([^\"'`]*)[\"'`]"],
+    ["class\\s*=\\s*\"([^\"]*)\"", "[\"'`]([^\"'`]*)[\"'`]"],
+    ["class\\s*=\\s*'([^']*)'", "[\"'`]([^\"'`]*)[\"'`]"]
+  ]
+}

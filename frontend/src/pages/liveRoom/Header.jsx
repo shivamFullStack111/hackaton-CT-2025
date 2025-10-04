@@ -1,25 +1,50 @@
-import React from 'react'
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react'
 import { FaBell } from "react-icons/fa6";
 import { IoSettingsOutline } from "react-icons/io5";
 import { TbCopy } from "react-icons/tb";
 import { FaAngleDown } from "react-icons/fa6";
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { DB_URL } from '../../utils';
 import JoinedUsersPopUp from './JoinedUsersPopUp';
 
 
 
 
-const Header = ({ currentPage, setlanguage, settheme, setactiveUsersPopUpOpen, activeUsersPopUpOpen }) => {
+const Header = ({ currentPage, setlanguage, settheme, setactiveUsersPopUpOpen, roomData, allJoindedUsers, activeUsersPopUpOpen,handleKickUser }) => {
+    const { user } = useSelector(state => state.user)
+    const [allUsersData, setallUsersData] = useState([])
+
+
+    useEffect(() => {
+        if (!allJoindedUsers.length || !activeUsersPopUpOpen) return
+
+        const userIds = allJoindedUsers.map(usr => usr.userId)
+        // /get-user-by-ids
+
+        const getUsersDataByIds = async () => {
+            const res = await axios.post(DB_URL + '/user/get-user-by-ids', { userIds })
+            
+            setallUsersData(res.data.users)
+        }
+
+        getUsersDataByIds()
+    }, [allJoindedUsers, activeUsersPopUpOpen])
 
     return (
         <>
             {activeUsersPopUpOpen && (
                 <JoinedUsersPopUp
-                setactiveUsersPopUpOpen={setactiveUsersPopUpOpen}
+                handleKickUser={handleKickUser}
+                roomData={roomData}
+                    allUsersData={allUsersData}
+                    setactiveUsersPopUpOpen={setactiveUsersPopUpOpen}
                 ></JoinedUsersPopUp>
             )}
             <div className=' p-4 bg-dark-navy items-center flex justify-between  '>
                 <div className='flex gap-2 items-center'>
-                    <img className='h-10 w-10 ' src="/public/ai.gif" alt="" />
+                    <img className='h-10 w-10 invert brightness-0' src="/public/room.png" alt="" />
                     <div >
                         <p className='font-bold text-purple-500'>Python</p>
                         <p className='text-gray-300 gap-2 flex  items-center leading-4 text-sm'>

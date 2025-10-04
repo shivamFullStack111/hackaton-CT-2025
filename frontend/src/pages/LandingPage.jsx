@@ -42,8 +42,8 @@ const LandingPage = () => {
                                     />
                                 </div>
                                 <p className='text-gray-300 font-semibold mt-2'>Unlock your potential with interactive live</p>
-                                <p className='text-gray-300 font-semibold'>AI-powered personalized learning</p>
-                                <button className='p-2 px-3 mt-8 rounded-lg animate-bounce hover:bg-dark-teal bg-teal text-white text-sm font-semibold  '>Start Your Journey</button>
+                                <p className='text-gray-300 mb-4 font-semibold'>AI-powered personalized learning</p>
+                                <Link to={'/'} className='p-2 px-3 mt-8 rounded-lg animate-bounce hover:bg-dark-teal bg-teal text-white text-sm font-semibold  '>Start Your Journey</Link>
                             </motion.div>
                             <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1.5, delay: 3 }}>
                                 <img className='h-72 object-contain' src="4person1.png" alt="" />

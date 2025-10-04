@@ -11,33 +11,41 @@ import { useSelector } from 'react-redux'
 const SidebarRight = ({ currentPage, setcurrentPage, handleSendMessage, allLiveChatMessages, setallLiveChatMessages }) => {
     const [barNumber, setbarNumber] = useState(0)
     const [inputValue, setinputValue] = useState('')
+    const { user } = useSelector(state => state.user)
 
     return (
         <div className='flex  '>
             {/* live chats  */}
             <motion.div initial={{ width: 0, opacity: 0 }} animate={{ width: barNumber == 1 ? 350 : 0, opacity: barNumber == 1 ? 1 : 0 }} transition={{ duration: 0.4 }} className={`w-72 relative overflow-hidden  bg-[#1c1e2ad4] ${barNumber == 1 && " p-3"} `}>
                 <div className='flex hap-2 justify-center min-w-[350px] items-center gap-2   '>
-                    <img className='h-16 w-16' src="/public/chat.png" alt="" />
+                    <img className='h-8 w-8' src="/public/speak.png" alt="" />
                     <p className='font-bold text-gray-300'>Live Chat ✨</p>
                 </div>
                 {/* messages  */}
-                <div className='border-2  h-[95%] gap-2 flex flex-col scrollbar p-5 mt-2 overflow-y-auto border-gray-700 rounded-t-[35px]'>
+                <div className='border-2  h-[95%] gap-2 flex flex-col scrollbar p-5 mt-5 overflow-y-auto border-gray-700 rounded-t-[35px]'>
                     <>
-                        <div className='flex gap-2'>
-                            <img className='min-h-6 max-h-6 min-w-6 max-w-6 rounded-full' src="/public/logo.png" alt="" />
-                            <div className='text-sm max-w-[80%] min-w-[50%] text-white bg-gray-600 p-2 rounded-xl '>
-                                <p className='text-[12px] text-green-500'>Shivam</p>
-                                <p>
-                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia facilis possimus repudiandae ullam. Tempora deleniti cum nostrum et corrupti ullam?
-                                </p>
-                            </div>
-                        </div>
-                        <div className='flex   gap-2'>
-                            <div className='text-sm ml-auto max-w-[80%] min-w-[50%] text-gray-800 bg-purple-300 p-2 rounded-xl '>
-                                <p>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, cupiditate.                                      </p>
-                            </div>
-                        </div>
+                        {allLiveChatMessages?.map((msg, i) => {
+                            if (user?._id !== msg?.sender?._id) {
+                                return <div key={i} className='flex gap-2'>
+                                    <img className='min-h-6 max-h-6 min-w-6 max-w-6 rounded-full' src="/public/logo.png" alt="" />
+                                    <div className='text-sm max-w-[80%] min-w-[50%] text-white bg-gray-600 p-2 rounded-xl '>
+                                        <p className='text-[12px] text-green-500'>{msg?.sender?.name}</p>
+                                        <p>
+                                            {msg?.message}
+                                        </p>
+                                    </div>
+                                </div>
+                            } else {
+                                return <div key={i} className='flex   gap-2'>
+                                    {/* <img className='min-h-6 max-h-6 min-w-6 max-w-6 rounded-full' src="/public/logo.png" alt="" /> */}
+                                    <div className='text-sm ml-auto max-w-[80%] min-w-[50%] text-gray-800 bg-purple-300 p-2 rounded-xl '>
+                                        <p>
+                                            {msg?.message}   
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+                        })}
 
 
 
@@ -47,7 +55,9 @@ const SidebarRight = ({ currentPage, setcurrentPage, handleSendMessage, allLiveC
                     <div className='flex items-center  border-2 rounded-lg overflow-hidden border-gray-600 justify-center h-full w-full '>
                         <input value={inputValue} onChange={(e) => setinputValue(e.target.value)} className='outline-none  px-2 backdrop-blur-sm bg-dark-navy text-gray-200 w-[85%] rounded-l-lg h-full ' type="text" name="" id="" />
                         <div onClick={() => {
+                            handleSendMessage(user?._id, inputValue)
 
+                            setallLiveChatMessages(p => ([...p, { sender: { _id: user?._id, name: user?.name }, message: inputValue }]))
                             setinputValue('')
 
                         }} className=' flex justify-center items-center text-green-500 bg-dark-purple  rounded-r-lg w-[15%] h-full'>

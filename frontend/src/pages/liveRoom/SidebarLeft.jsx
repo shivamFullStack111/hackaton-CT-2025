@@ -8,9 +8,10 @@ import { RiAiGenerate2 } from "react-icons/ri";
 import { useSelector } from 'react-redux';
 
 
-const SidebarLeft = () => {
+const SidebarLeft = ({ roomData }) => {
     const [barNumber, setbarNumber] = useState(0)
     const [exitRoomPopUpOpen, setexitRoomPopUpOpen] = useState(false)
+    const { user } = useSelector(state => state.user)
 
     return (
         <>
@@ -33,9 +34,9 @@ const SidebarLeft = () => {
                     <div title='Ai notes generator' className={`flex cursor-pointer border-dark-navy text-white  border-l-4    justify-center p-4`}>
                         <GrNotes className="text-3xl"></GrNotes>
                     </div>
-                  <div title='Ai quiz generator' className={`flex cursor-pointer border-dark-navy text-white  border-l-4    justify-center p-4`}>
+                    {user?._id == roomData?.createdBy && <div title='Ai quiz generator' className={`flex cursor-pointer border-dark-navy text-white  border-l-4    justify-center p-4`}>
                         <RiAiGenerate2 className="text-3xl"></RiAiGenerate2>
-                    </div>
+                    </div>}
 
 
 
