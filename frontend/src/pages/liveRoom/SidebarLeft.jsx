@@ -6,11 +6,14 @@ import { motion } from 'framer-motion'
 import { GrNotes } from "react-icons/gr";
 import { RiAiGenerate2 } from "react-icons/ri";
 import { useSelector } from 'react-redux';
+import { BsSendFill } from "react-icons/bs";
+
 
 
 const SidebarLeft = ({ roomData }) => {
     const [barNumber, setbarNumber] = useState(0)
     const [exitRoomPopUpOpen, setexitRoomPopUpOpen] = useState(false)
+    const [isReviewOpen, setisReviewOpen] = useState(false)
     const { user } = useSelector(state => state.user)
 
     return (
@@ -45,10 +48,34 @@ const SidebarLeft = ({ roomData }) => {
                     </div>
                 </div>
                 {/* code review  */}
-                <motion.div initial={{ width: 0, opacity: 0 }} animate={{ width: barNumber == 1 ? 350 : 0, opacity: barNumber == 1 ? 1 : 0 }} transition={{ duration: 0.4 }} className={`w-72 overflow-hidden  bg-[#1c1e2ad4] ${barNumber == 1 && " p-3"} `}>
+                <motion.div initial={{ width: 0, opacity: 0 }} animate={{ width: barNumber == 1 ? 350 : 0, opacity: barNumber == 1 ? 1 : 0 }} transition={{ duration: 0.4 }} className={`w-72 overflow-hidden flex flex-col   bg-[#1c1e2ad4] ${barNumber == 1 && " p-3"} `}>
                     <div className='flex hap-2 min-w-[350px] items-center gap-2   '>
-                        <img className='h-8 w-8' src="/public/code-review.png" alt="" />
+                        <img className='h-8 w-8' src="/public/ai.gif" alt="" />
                         <p className='font-bold text-gray-300'>Code Review with AI ✨</p>
+                    </div>
+
+                    <div className='relative flex flex-col  h-full '>
+                        <div className='h-full' >
+                            <div className='flex justify-center flex-col items-center h-[82%]'>
+                                <p className='text-4xl'>🤖</p>
+                                <p className='mt-2 text-2xl font-semibold text-gray-400'>Review your code!</p>
+                            </div>
+                        </div>
+                        {!isReviewOpen && <button onClick={() => setisReviewOpen(true)} className='bottom-0 m-2 w-[95%] p-2 absolute bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-400'>Review</button>}
+                        {isReviewOpen &&
+                            <div className='absolute flex-col w-full bottom-0  flex'>
+                                <div className=' translate-y-3 p-2 pb-4 rounded-t-2xl  bg-[#1c1e2ad4] flex items-center gap-2  '>
+                                    <div className='h-2 w-2 bg-green-400 rounded-full'></div>
+                                    <div className='font-semibold text-gray-300'>Your Code Is Attached!</div>
+                                </div>
+                                <div className='rounded-xl z-20 h-14 flex items-center w-full'>
+                                    <textarea rows={2} className='w-[85%]  rounded-l-xl p-1 bg-gray-200  outline-none' placeholder='Ask Anything...' name="" id=""></textarea>
+                                    <div className='w-[15%] cursor-pointer group  h-full bg-gray-200 rounded-r-xl flex justify-center items-center'>
+                                        <BsSendFill className='text-green-600 group-hover:scale-110 transition-all duration-200 text-xl rotate-45' />
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </motion.div>
             </div>
