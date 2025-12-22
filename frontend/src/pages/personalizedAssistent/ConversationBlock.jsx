@@ -15,10 +15,7 @@ const ConversationBlock = ({ userData, }) => {
     const handleSendMessage = useCallback(async () => {
         try {
             setisMessageSending_Loading(true);
-            alert(JSON.stringify({
-                role: 'user',
-                content: userInput,
-            }, null, 2))
+
 
 
 
@@ -36,7 +33,7 @@ const ConversationBlock = ({ userData, }) => {
                 role: 'user',
                 content: userInput,
             }]))
-
+            setuserInput('')
             const res = await axios.post(
                 "http://localhost:8888/api/ai/personalized-chat",
                 payload
@@ -46,7 +43,7 @@ const ConversationBlock = ({ userData, }) => {
                 role: "assistant", content: res?.data?.message?.content
             }]))
 
-            setuserInput('')
+
         } catch (error) {
             console.error(error);
         } finally {
@@ -168,7 +165,7 @@ const ConversationBlock = ({ userData, }) => {
                                 }}
                                 placeholder="Type your message here..."
                                 className="w-full text-black bg-gray-750 border border-gray-600 rounded-2xl p-4 pr-12  resize-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 outline-none"
-                                rows="2"
+                                rows="3"
                             />
                         </div>
 
