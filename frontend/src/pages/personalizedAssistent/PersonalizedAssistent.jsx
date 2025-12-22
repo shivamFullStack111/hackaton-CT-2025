@@ -24,15 +24,19 @@ const PersonalAIAssistant = () => {
     });
 
     useEffect(() => {
-        const getUserProfile = async () => {
-            const res = await axios.get(`http://localhost:8888/api/user-profile/get-profile/${JSON.parse(localStorage.getItem("user"))._id}`)
-            if (res?.data?.success) {
-                setuserData(res?.data?.profile)
+        try {
+            const getUserProfile = async () => {
+                const res = await axios.get(`http://localhost:8888/api/user-profile/get-profile/${JSON.parse(localStorage.getItem("user"))._id}`)
+                if (res?.data?.success) {
+                    setuserData(res?.data?.profile)
+                }
             }
+            getUserProfile()
+        } catch (error) {
+            console.log(error.message)
+        } finally {
             setisLoading(false)
         }
-
-        getUserProfile()
     }, [])
 
     return (
@@ -43,6 +47,7 @@ const PersonalAIAssistant = () => {
             {/* Popup UI only */}
             {!isLoading && <UserDetailPopUp
                 userData2={userData}
+                setuserData2={setuserData}
             />}
 
             <div className="min-h-screen bg-dark-navy py-8 px-4 sm:px-6">

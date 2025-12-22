@@ -1,7 +1,7 @@
 const UserProfile = require("../schemas/userProfileSchema")
 
 
-const createProfile = ("/initialize-profile", async (req, res) => {
+const createProfile = async (req, res) => {
     try {
         const { userId } = req.body;
         console.log(userId)
@@ -17,7 +17,7 @@ const createProfile = ("/initialize-profile", async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
-});
+};
 
 
 const updateProfile = ("/update-profile/:userId", async (req, res) => {

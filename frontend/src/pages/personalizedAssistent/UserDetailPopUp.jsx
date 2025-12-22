@@ -7,7 +7,7 @@ import axios from "axios"
 import { useEffect } from 'react';
 
 
-const UserDetailPopUp = ({ userData2 }) => {
+const UserDetailPopUp = ({ userData2, setuserData2 }) => {
     const [isLoading, setisLoading] = useState(false)
     const [isPopUpOpen, setisPopUpOpen] = useState(false)
     const [userData, setuserData] = useState({
@@ -25,11 +25,12 @@ const UserDetailPopUp = ({ userData2 }) => {
     useEffect(() => {
         if (userData2?.fullName && userData2?.age && userData2?.currentlyPursuing && userData2?.careerInterest && userData2?.weeklyStudyTime) {
             setuserData(userData2)
+
             setisPopUpOpen(false)
         } else {
             setisPopUpOpen(true)
         }
-    }, [userData2])
+    }, [userData2, setuserData2])
 
     const handleSubmit = async () => {
         setisLoading(true)
@@ -72,10 +73,12 @@ const UserDetailPopUp = ({ userData2 }) => {
 
         const res = await axios.post("http://localhost:8888/api/user-profile/initialize-profile", payload)
 
-        console.log(res.data)
+
         if (!res?.data?.success) {
             toast.error(res?.data?.message)
             return setisLoading(false)
+        } else {
+            setuserData2(res?.data?.profile)
         }
 
         toast.success(res.data?.message)

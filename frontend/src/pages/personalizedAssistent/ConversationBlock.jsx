@@ -16,9 +16,6 @@ const ConversationBlock = ({ userData, }) => {
         try {
             setisMessageSending_Loading(true);
 
-
-
-
             const payload = {
                 allMessages: [...allMessages,
                 {
