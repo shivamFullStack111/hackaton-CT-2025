@@ -7,7 +7,8 @@ userRoutes.post('/register', registerUser)
 userRoutes.post('/login', loginUser)
 userRoutes.get('/users', getAllUsers)
 userRoutes.put('/update-name', updateUserName) 
-userRoutes.post('/get-user-by-ids', getUsersByIds) 
+userRoutes.post('/get-user-by-ids', getUsersByIds)
+ 
 
 
 module.exports = {userRoutes}

@@ -4,9 +4,10 @@ require("dotenv").config()
 const mongoose = require('mongoose')
 const { userRoutes } = require('./routes/userRoutes')
 const { sessionRoutes } = require('./routes/SessionRoute')
-const aiRoutes = require('./routes/aiRoutes') // Make sure this path is correct
+const { userProfileRouter } = require("./routes/userProfileRoutes")
 const { initializeSocket } = require('./socket')
 const http = require('http')
+const { aiRouter } = require('./routes/ai_routes')
 
 const app = express()
 
@@ -24,7 +25,8 @@ mongoose.connect(process.env.MONGOURL).then(() => {
 // routes 
 app.use('/api/user', userRoutes)
 app.use('/api/session', sessionRoutes)
-app.use('/api/ai', aiRoutes)
+app.use('/api/user-profile', userProfileRouter)
+app.use('/api/ai', aiRouter)
 
 // health check
 app.get('/api', (req, res) => {

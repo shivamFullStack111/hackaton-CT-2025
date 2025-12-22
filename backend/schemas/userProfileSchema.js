@@ -26,11 +26,11 @@ const userProfileSchema = new mongoose.Schema(
             trim: true,
         },
         strongSubjects: {
-            type: [String], 
+            type: String, 
             required: true,
         },
         areasOfImprovement: {
-            type: [String],
+            type: String,
             required: true,
         },
         learningPreferences: {

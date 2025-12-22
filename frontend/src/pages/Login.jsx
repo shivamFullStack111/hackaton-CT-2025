@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import Particles from "../components/Particles";
 import { useState } from "react";
-import toast from 'react-hot-toast'
+import toast, { Toaster } from 'react-hot-toast'
 import axios from 'axios'
 import { DB_URL } from "./utils";
 import Cookies from "js-cookie"
@@ -18,6 +18,7 @@ const Login = () => {
   const navigate = useNavigate()
 
   const handleSubmit = async () => {
+   
     if (!data?.email?.trim()) {
       toast.error("Email is required");
       return;
@@ -59,6 +60,7 @@ const Login = () => {
 
   return (
     <>
+    <Toaster></Toaster>
       <div className="min-h-screen relative w-full flex justify-center items-center">
         <Particles
           className={"h-screen fixed top-0 right-0 w-full "}

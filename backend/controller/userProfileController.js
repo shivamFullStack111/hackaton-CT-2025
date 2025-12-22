@@ -1,28 +1,26 @@
-import express from "express";
-import UserProfile from "../schemas/userProfileSchema";
+const UserProfile = require("../schemas/userProfileSchema")
 
-const router = express.Router();
 
-router.post("/initialize-profile", async (req, res) => {
+const createProfile = ("/initialize-profile", async (req, res) => {
     try {
         const { userId } = req.body;
-
+        console.log(userId)
         const existingProfile = await UserProfile.findOne({ userId });
         if (existingProfile) {
-            return res.status(400).json({ success: false, message: "Profile already exists!" });
+            return res.send({ success: false, message: "Profile already exists!" });
         }
 
-        const profile = new UserProfile(req.body);
+        const profile = new UserProfile(req.body.profile);
         await profile.save();
 
-        res.status(201).json({ success: true, profile });
+        res.status(201).json({ success: true, profile, message: "Profile Initialized Successfully" });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 });
 
 
-router.put("/update-profile/:userId", async (req, res) => {
+const updateProfile = ("/update-profile/:userId", async (req, res) => {
     try {
         const { userId } = req.params;
 
@@ -43,7 +41,7 @@ router.put("/update-profile/:userId", async (req, res) => {
 });
 
 
-router.get("/get-profile/:userId", async (req, res) => {
+const getProfile = ("/get-profile/:userId", async (req, res) => {
     try {
         const { userId } = req.params;
         const profile = await UserProfile.findOne({ userId });
@@ -58,4 +56,8 @@ router.get("/get-profile/:userId", async (req, res) => {
     }
 });
 
-export default router;
+module.exports = {
+    createProfile,
+    updateProfile,
+    getProfile
+}

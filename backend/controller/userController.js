@@ -9,7 +9,7 @@ const registerUser = async (req, res) => {
 
         // user exist check
         const exist = await User.findOne({ email })
-        if (exist) return res.status(400).json({ success: false, message: "User already exists" })
+        if (exist) return res.send({ success: false, message: "User already exists with this email" })
 
         // password hash
         const hashedPassword = await bcrypt.hash(password, 10)
@@ -114,5 +114,6 @@ const updateUserName = async (req, res) => {
         res.status(500).json({ success: false, message: err.message })
     }
 }
+
 
 module.exports = { registerUser, loginUser, getAllUsers, updateUserName, getUsersByIds }

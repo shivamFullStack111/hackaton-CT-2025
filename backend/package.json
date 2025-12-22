@@ -18,15 +18,18 @@
   },
   "homepage": "https://github.com/shivamFullStack111/hackaton-CT-2025#readme",
   "dependencies": {
+    "@google/genai": "^1.33.0",
     "@google/generative-ai": "^0.24.1",
     "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
+    "groq-sdk": "^0.37.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.1",
     "nodemon": "^3.1.10",
+    "openai": "^6.15.0",
     "socket.io": "^4.8.1"
   }
 }
