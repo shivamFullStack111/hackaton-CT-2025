@@ -16,6 +16,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { Loader2, Send } from "lucide-react";
 
 const SidebarLeft = ({
   roomData,
@@ -199,55 +200,54 @@ const SidebarLeft = ({
           </div>
 
           <div className="h-full    flex flex-col">
-            <div className="h-[100%] pb-36 flex flex-col px-3 overflow-y-auto scrollbar ">
-              {allMessages?.length &&
-                allMessages?.map((message) => {
-                  if (message?.role == "user")
-                    return (
-                      <>
-                        {" "}
-                        <br />
-                        <div className="ml-auto bg-gray-900 px-3 py-2 rounded-lg text-white">
-                          {message?.content}
-                        </div>
-                        <br />
-                      </>
-                    );
-
-                  if (message?.role == "assistant")
-                    return (
-                      <div className="text-white over  max-w-[370px] text-wrap flex-wrap  whitespace-pre-wrap">
-                        <ReactMarkdown
-                          remarkPlugins={[remarkGfm]}
-                          components={{
-                            code({ inline, className, children, ...props }) {
-                              const match = /language-(\w+)/.exec(
-                                className || ""
-                              );
-
-                              return !inline && match ? (
-                                <SyntaxHighlighter
-                                  style={oneDark}
-                                  language={match[1]}
-                                  PreTag="div"
-                                  className="rounded-xl text-sm my-3"
-                                  {...props}
-                                >
-                                  {String(children).replace(/\n$/, "")}
-                                </SyntaxHighlighter>
-                              ) : (
-                                <code className="bg-gray-800 px-1 rounded text-purple-400">
-                                  {children}
-                                </code>
-                              );
-                            },
-                          }}
-                        >
-                          {message.content}
-                        </ReactMarkdown>
+            <div className="h-[100%] pb-56 flex flex-col px-3 overflow-y-auto scrollbar ">
+              {allMessages?.map((message) => {
+                if (message?.role == "user")
+                  return (
+                    <>
+                      {" "}
+                      <br />
+                      <div className="ml-auto bg-gray-900 px-3 py-2 rounded-lg text-white">
+                        {message?.content}
                       </div>
-                    );
-                })}
+                      <br />
+                    </>
+                  );
+
+                if (message?.role == "assistant")
+                  return (
+                    <div className="text-white over  max-w-[370px] text-wrap flex-wrap  whitespace-pre-wrap">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          code({ inline, className, children, ...props }) {
+                            const match = /language-(\w+)/.exec(
+                              className || ""
+                            );
+
+                            return !inline && match ? (
+                              <SyntaxHighlighter
+                                style={oneDark}
+                                language={match[1]}
+                                PreTag="div"
+                                className="rounded-xl text-sm my-3"
+                                {...props}
+                              >
+                                {String(children).replace(/\n$/, "")}
+                              </SyntaxHighlighter>
+                            ) : (
+                              <code className="bg-gray-800 px-1 rounded text-purple-400">
+                                {children}
+                              </code>
+                            );
+                          },
+                        }}
+                      >
+                        {message.content}
+                      </ReactMarkdown>
+                    </div>
+                  );
+              })}
               <div ref={messagesEndRef}></div>
             </div>
             <div className=" absolute w-[90%] bottom-4  flex justify-center items-center ">
@@ -267,32 +267,74 @@ const SidebarLeft = ({
               )}
 
               {isReviewOpen && (
-                <div className=" flex-col relative w-full flex">
-                  <div className="absolute -top-7 ml-2 flex items-center gap-2"></div>
-                  <div className="rounded-xl text-gray-200  h-14 flex items-center w-full">
+                // <div className=" flex-col relative w-full flex">
+                //   <div className="absolute -top-7 ml-2 flex items-center gap-2"></div>
+                //   <div className="rounded-xl text-gray-200  h-14 flex items-center w-full">
+                //     <textarea
+                //       value={userInput}
+                //       onChange={(e) => {
+                //         setuserInput(e.target.value);
+                //       }}
+                //       className="w-[85%]  rounded-l-xl p-1 bg-gray-700  outline-none"
+                //       placeholder="Ask Anything..."
+                //       name=""
+                //       rows={noOfRowsOfInput}
+                //       id="userInputField"
+                //     ></textarea>
+                //     <div
+                //       onClick={() => {
+                //         if (!isCodeReviewingLoading)
+                //           handleReviewCode(userInput);
+                //       }}
+                //       className="w-[15%] cursor-pointer group  h-full bg-gray-700 rounded-r-xl flex justify-center items-center"
+                //     >
+                //       {isCodeReviewingLoading ? (
+                //         <RiLoader4Fill className="text-black  animate-spin  text-xl " />
+                //       ) : (
+                //         <BsSendFill className="text-green-600 group-hover:scale-110 transition-all duration-200 text-xl rotate-45" />
+                //       )}
+                //     </div>
+                //   </div>
+                // </div>
+                <div className="border-t w-full translate-y-4 bg-dark-navy border-gray-700 pt-2">
+                  <div className="relative">
                     <textarea
                       value={userInput}
-                      onChange={(e) => {
-                        setuserInput(e.target.value);
-                      }}
-                      className="w-[85%]  rounded-l-xl p-1 bg-gray-700  outline-none"
-                      placeholder="Ask Anything..."
-                      name=""
-                      rows={noOfRowsOfInput}
-                      id="userInputField"
-                    ></textarea>
-                    <div
-                      onClick={() => {
+                      onChange={(e) => setuserInput(e.target.value)}
+                      // onKeyPress={handleKeyPress}
+                      placeholder="Type or paste your text here to check grammar..."
+                      className="w-full scrollbar h-32 p-4 pr-12 bg-gray-800 border border-gray-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent resize-none placeholder-gray-500"
+                      disabled={isCodeReviewingLoading}
+                    />
+                    <button
+                      disabled={!userInput.trim() || isCodeReviewingLoading}
+                       onClick={() => {
                         if (!isCodeReviewingLoading)
                           handleReviewCode(userInput);
                       }}
-                      className="w-[15%] cursor-pointer group  h-full bg-gray-700 rounded-r-xl flex justify-center items-center"
+                      className={`absolute -translate-y-6  right-3 bottom-3 p-3 rounded-xl transition-all
+                   ${
+                     !userInput.trim() || isCodeReviewingLoading
+                       ? "bg-gray-700 text-gray-500 cursor-not-allowed"
+                     :
+                     "bg-gradient-to-r from-teal to-purple-600 text-white hover:shadow-lg"
+                   }
+                `}
                     >
                       {isCodeReviewingLoading ? (
-                        <RiLoader4Fill className="text-black  animate-spin  text-xl " />
+                        <Loader2 className="h-5 w-5 animate-spin" />
                       ) : (
-                        <BsSendFill className="text-green-600 group-hover:scale-110 transition-all duration-200 text-xl rotate-45" />
+                        <Send className="h-5 w-5" />
                       )}
+                    </button>
+
+                    <div className="flex items-center pb-2 justify-between  text-sm text-gray-500">
+                      <div className="flex items-center gap-4">
+                        <span>
+                          Press Enter to send • Shift+Enter for new line
+                        </span>
+                      </div>
+                      {/* <span>/5000 characters</span> */}
                     </div>
                   </div>
                 </div>
