@@ -42,7 +42,7 @@ const Home = () => {
 
     }, [])
     return (
-        <div className="min-h-screen   relative w-full flex ">
+        <div className="min-h-screen bg-gray-900  relative w-full flex ">
             {/* Background Particles */}
             <Particles
                 className={"h-screen fixed top-0 right-0 w-full "}
@@ -145,7 +145,7 @@ const Home = () => {
                 <ResponsiveContainer>
                     <div className='mt-12 '>
                         <p className='font-bold  text-lg text-white'>🔥 Recommended For You</p>
-                        <div className='flex overflow-x-scroll hide-scrollbar scrollbar pb-4 gap-12 px-6'>
+                        <div className='flex justify-evenly  pb-4 gap-12 px-6'>
                             <div className='mt-4 min-w-[350px] !bg-dark-navy p-6 rounded-2xl gap-10  '>
                                 <div className=' flex gap-3 '>
                                     <img className='h-16  w-16 rounded-full  ' src="ai.gif" alt="" />
@@ -170,7 +170,7 @@ const Home = () => {
 
                             <div className='mt-4 min-w-[350px] !bg-dark-navy p-6 rounded-2xl gap-10  '>
                                 <div className=' flex gap-3 '>
-                                    <img className='h-16  w-16 rounded-full  ' src="ai.gif" alt="" />
+                                    <img className='h-16  w-16 rounded-full  ' src="grammer.gif" alt="" />
                                     <div>
                                         <p className='font-bold text-lg text-white'>Grammer Checker</p>
                                         <p className='font-semibold mt-1 text-sm text-gray-300'>Eliminate errors and enhance your impact, every time you write.</p>
@@ -183,9 +183,9 @@ const Home = () => {
                                 </div>
                                 <div className='mt-2 w-full flex justify-between '>
                                     <div className='flex items-center gap-1'>
-                                        <FaStar size={23} className='text-yellow-500' /><p className='text-sm font-semibold text-white'>4.5 (ratings)</p>
+                                        <FaStar size={23} className='text-yellow-500' /><p className='text-sm font-semibold text-white'>4.9 (ratings)</p>
                                     </div>
-                                    <Link to={"/"} className='bg-gray-600 px-6  ml-auto py-1 rounded-full text-white font-bold hover:scale-105 transition-all duration-300'>Soon...</Link>
+                                    <Link to={"/grammer-checker"} className='bg-purple-600 px-6  ml-auto py-1 rounded-full text-white font-bold hover:scale-105 transition-all duration-300'>Join</Link>
                                 </div>
                             </div>
                         </div>

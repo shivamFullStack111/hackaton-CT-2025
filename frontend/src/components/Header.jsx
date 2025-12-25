@@ -42,7 +42,7 @@ const Header = () => {
                 />
             )}
 
-            <div className='bg-dark-navy'>
+            <div className='bg-dark-navy  '>
                 <div className='flex items-center justify-between p-2 w-full '>
 
                     {isLandingPage ? (

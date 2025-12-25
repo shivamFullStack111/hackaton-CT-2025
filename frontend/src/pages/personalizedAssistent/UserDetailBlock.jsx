@@ -2,8 +2,8 @@ import React from 'react'
 
 const UserDetailBlock = ({userData}) => {
     return (
-        <div className="w-full lg:w-96 flex-shrink-0">
-            <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700 mb-6">
+        <div className="w-full z-30 lg:w-96 flex-shrink-0">
+            <div className="bg-dark-navy rounded-2xl p-6 border border-gray-700 mb-6">
                 <div className="text-center mb-6">
                     <div className="w-24 h-24 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span className="text-white text-2xl font-bold">AI</span>

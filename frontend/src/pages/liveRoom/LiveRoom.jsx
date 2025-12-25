@@ -24,7 +24,7 @@ const LiveRoom = () => {
     const [isCallingButtonsOn, setisCallingButtonsOn] = useState(true);
     const [currentPage, setcurrentPage] = useState("whiteboard"); // whiteboard || editor || quiz
     const [language, setlanguage] = useState("javascript");
-    const [theme, settheme] = useState("vs-dark");
+    const [theme, settheme] = useState("vs-light");
     const [activeUsersPopUpOpen, setactiveUsersPopUpOpen] = useState(false);
     const [codeEditorCurrentValue, setcodeEditorCurrentValue] = useState();
     const [roomData, setroomData] = useState()
@@ -129,7 +129,7 @@ const LiveRoom = () => {
             }
         });
 
-        
+
         return () => {
             socket.off("update-exceil-change");
         };
@@ -167,7 +167,7 @@ const LiveRoom = () => {
                 ></Header>
                 <div className="h-[89.3vh] flex ">
                     {/* sidebar left */}
-                    <SidebarLeft roomData={roomData}></SidebarLeft>
+                    <SidebarLeft programingLanguage={language} codeEditorCurrentValue={codeEditorCurrentValue} setcodeEditorCurrentValue={setcodeEditorCurrentValue} roomData={roomData}></SidebarLeft>
 
                     {/* main section */}
                     <div className="w-full bg-white overflow-hidden h-full flex flex-col ">
