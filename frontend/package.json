@@ -21,6 +21,7 @@
     "@mui/material": "^7.3.2",
     "@reduxjs/toolkit": "^2.9.0",
     "axios": "^1.12.2",
+    "emoji-picker-react": "^4.16.1",
     "framer-motion": "^12.23.16",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.562.0",

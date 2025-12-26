@@ -1,5 +1,9 @@
 const Groq = require("groq-sdk");
-const { grammer_checker_function } = require("../utils/ai-functions");
+const {
+  grammer_checker_function,
+  quiz_generator,
+  AiCode_review,
+} = require("../utils/ai-functions");
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -46,31 +50,11 @@ user information
 
 const code_review = async (req, res) => {
   try {
-    const completion = await groq.chat.completions.create({
-      model: "llama-3.1-8b-instant",
-      temperature: 0,
-      messages: [
-        {
-          role: "system",
-          content: `
-You are a senior software engineer acting as a code reviewer.
-
-Review the given code and:
-- Identify bugs, errors, and edge cases
-- Point out bad practices or inefficiencies
-- Suggest improvements and best practices
-- Mention security or performance concerns if any
-- Explain issues clearly and briefly
-
-Do not rewrite the full code unless asked.
-Do not answer non-coding questions.
-Be precise, professional, and constructive.
-
-`,
-        },
-        ...req?.body?.allMessages,
-      ],
-    });
+    // reviewMode
+    const completion = await AiCode_review(
+      req?.body?.allMessages,
+      req?.body?.reviewMode
+    );
 
     console.log(completion.choices[0]);
     return res.send({ success: true, message: completion.choices[0].message });
@@ -85,8 +69,25 @@ const grammer_checker = async (req, res) => {
       req?.body?.userInput,
       req.body?.grammer_mode
     );
-    console.log(completion.choices[0].message)
+    console.log(completion.choices[0].message);
     return res.send({ success: true, message: completion.choices[0].message });
+  } catch (error) {
+    return res.send({ success: false, message: error.message });
+  }
+};
+
+const generate_quiz = async (req, res) => {
+  try {
+    const completion = await quiz_generator(
+      req?.body?.difficulty,
+      req?.body?.quizRequirements,
+      req?.body?.total_questions
+    );
+
+    return res.send({
+      success: true,
+      message: JSON.parse(completion.choices[0].message.content),
+    });
   } catch (error) {
     return res.send({ success: false, message: error.message });
   }
@@ -96,4 +97,5 @@ module.exports = {
   personalized_chat,
   code_review,
   grammer_checker,
+  generate_quiz,
 };

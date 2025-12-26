@@ -27,6 +27,7 @@ const App = () => {
     }
     dispatch(setLoading(false));
   }, []);
+  
   return (
     <>
       <BrowserRouter>
