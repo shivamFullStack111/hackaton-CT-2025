@@ -202,11 +202,11 @@ const MainOverlay = ({ setShowFeedbackForm, getDuration }) => (
     {/* Action Buttons */}
     <div className="space-y-3">
       <Link
-        to="/dashboard"
+        to="/home"
         className="w-full py-3 bg-gradient-to-r from-teal to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all flex items-center justify-center gap-2"
       >
         <Home className="h-4 w-4" />
-        Go to Dashboard
+        Go to Home
       </Link>
 
       <Link
