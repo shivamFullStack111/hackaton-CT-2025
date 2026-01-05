@@ -31,6 +31,7 @@ import {
   Terminal,
   BrainCircuit,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const SidebarLeft = ({
   roomData,
@@ -44,9 +45,7 @@ const SidebarLeft = ({
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const [allMessages, setallMessages] = useState([]);
-  const participants = Array.isArray(roomData?.participants)
-    ? roomData.participants
-    : [];
+  const navigate = useNavigate()
 
   const { user } = useSelector((state) => state.user || {});
 
@@ -55,21 +54,21 @@ const SidebarLeft = ({
 
   // Navigation items
   const navItems = [
-    {
-      id: "dashboard",
-      icon: MdOutlineDashboard,
-      label: "Dashboard",
-      active: currentPage === "dashboard",
-      onClick: () => setcurrentPage("dashboard"),
-      visible: true,
-    },
+    // {
+    //   id: "dashboard",
+    //   icon: MdOutlineDashboard,
+    //   label: "Dashboard",
+    //   active: currentPage === "dashboard",
+    //   onClick: () => setcurrentPage("dashboard"),
+    //   visible: true,
+    // },
     {
       id: "ai-review",
       icon: FaRobot,
       label: "AI Review",
       active: isCodeReviewOpen,
       onClick: () => setIsCodeReviewOpen(!isCodeReviewOpen),
-      visible: true,
+      visible: roomData?.sessionFeatures?.aiCodeReview,
       badge: allMessages?.length > 1 ? allMessages?.length - 1 : null,
     },
     {
@@ -90,7 +89,7 @@ const SidebarLeft = ({
         animate={{ scale: 1, opacity: 1 }}
         className="bg-dark-navy border border-gray-700 rounded-2xl p-6 max-w-md w-full mx-4"
       >
-        <div className="flex items-center gap-3 mb-4">
+        <div  className="flex items-center gap-3 mb-4">
           <div className="p-2 bg-red-500/20 rounded-lg">
             <IoExitOutline className="text-red-400 text-2xl" />
           </div>
@@ -127,7 +126,7 @@ const SidebarLeft = ({
           >
             Cancel
           </button>
-          <button className="flex-1 py-3 px-4 rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 transition-all font-medium">
+          <button onClick={()=>navigate("/home")} className="flex-1 py-3 px-4 rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 transition-all font-medium">
             Leave Session
           </button>
         </div>

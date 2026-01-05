@@ -17,6 +17,7 @@ import Cookies from "js-cookie";
 import { DB_URL } from "../../utils";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { BookOpen, TvMinimalPlay, User } from "lucide-react";
 
 const Home = () => {
   const [profileOptionsBarOpen, setprofileOptionsBarOpen] = useState(false);
@@ -294,7 +295,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="mt-12 ">
+          <div className="mt-12 mb-6 ">
             <p className="font-bold  text-lg text-white">
               🔥 Open Rooms {allSession.length}
             </p>
@@ -304,20 +305,29 @@ const Home = () => {
                   <div className="bg-gray-750 bg-dark-navy rounded-xl p-6 border min-w-[500px] border-gray-600 hover:border-purple-500 transition-colors duration-200">
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h3 className="text-white text-xl font-semibold mb-2">
+                        <h3 className="text-white flex items-center gap-2 text-xl font-semibold mb-2">
+                          {/* <TvMinimalPlay size={20} />  */}
                           {sess?.sessionInfo?.title}
                         </h3>
-                        <p className="text-gray-400 text-sm">
-                          {sess?.createdBy?.name}
+                        <p className="text-gray-400 flex gap-2 items-center text-sm">
+                          <User size={20} /> {sess?.createdBy?.name}
                         </p>
                       </div>
-                      <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                        Live
-                      </span>
+                      {!sess?.ended && (
+                        <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                          Live
+                        </span>
+                      )}
+                      {sess?.ended && (
+                        <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                          Ended
+                        </span>
+                      )}
                     </div>
 
                     <div className="flex items-center justify-between text-gray-300 text-sm mb-4">
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2">
+                        <BookOpen />{" "}
                         <span className="z-50">
                           {sess?.sessionInfo?.gradeLevel}
                           {sess?.sessionInfo?.gradeLevel == "primary" &&

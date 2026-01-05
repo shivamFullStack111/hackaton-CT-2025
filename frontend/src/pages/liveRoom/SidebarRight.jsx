@@ -160,7 +160,7 @@ const SidebarRight = ({
       icon: MdOutlineDraw,
       label: "Whiteboard",
       active: currentPage === "whiteboard",
-      visible: sessionFeatures?.whiteboard,
+      visible: roomData?.sessionFeatures?.whiteboard,
       onClick: () => setcurrentPage("whiteboard"),
     },
     {
@@ -168,7 +168,7 @@ const SidebarRight = ({
       icon: MdOutlineCode,
       label: "Code Editor",
       active: currentPage === "editor",
-      visible: sessionFeatures?.codeEditor,
+      visible: roomData?.sessionFeatures?.codeEditor,
       onClick: () => setcurrentPage("editor"),
     },
     {
@@ -194,7 +194,7 @@ const SidebarRight = ({
         <ChevronRight className="h-4 w-4 text-gray-500" />
       </div>
       <div className="space-y-2">
-        {participants.slice(0, 3).map((participant, index) => (
+        {participants?.slice(0, 3)?.map((participant, index) => (
           <div
             key={index}
             className="flex items-center gap-2 p-2 rounded-lg bg-gray-800/50"
@@ -220,10 +220,10 @@ const SidebarRight = ({
             </div>
           </div>
         ))}
-        {participants.length > 3 && (
+        {participants?.length > 3 && (
           <div className="text-center">
             <button className="text-sm text-teal hover:text-teal/80">
-              + {participants.length - 3} more
+              + {participants?.length - 3} more
             </button>
           </div>
         )}
@@ -353,7 +353,7 @@ const SidebarRight = ({
             ))}
 
             {/* Live Chat Button */}
-            {sessionFeatures?.liveChat && (
+            {roomData?.sessionFeatures?.liveChat && (
               <button
                 onClick={() => setIsLiveChatOpen(true)}
                 className={`relative group w-full p-4 ${
