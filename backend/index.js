@@ -8,6 +8,7 @@ const { userProfileRouter } = require("./routes/userProfileRoutes")
 const { initializeSocket } = require('./socket')
 const http = require('http')
 const { aiRouter } = require('./routes/ai_routes')
+const callRouter = require('./routes/call_routes')
 
 const app = express()
 
@@ -27,6 +28,9 @@ app.use('/api/user', userRoutes)
 app.use('/api/session', sessionRoutes)
 app.use('/api/user-profile', userProfileRouter)
 app.use('/api/ai', aiRouter)
+app.use('/api/call', callRouter)
+
+
 
 // health check
 app.get('/api', (req, res) => {

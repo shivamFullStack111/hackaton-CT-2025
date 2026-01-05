@@ -51,7 +51,7 @@ const SidebarLeft = ({
   const { user } = useSelector((state) => state.user || {});
 
   // Safe access with fallbacks
-  const isTeacher = user?._id === roomData?.createdBy;
+  const isTeacher = user?._id === roomData?.createdBy?._id;
 
   // Navigation items
   const navItems = [

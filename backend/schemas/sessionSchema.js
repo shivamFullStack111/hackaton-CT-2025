@@ -1,5 +1,5 @@
-const mongoose = require("mongoose")
-const bcrypt = require("bcrypt")
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const SessionSchema = new mongoose.Schema(
   {
@@ -14,6 +14,9 @@ const SessionSchema = new mongoose.Schema(
       default: false,
       required: true,
     },
+    endedDateTime: {
+      type: Date,
+    },
 
     sessionInfo: {
       title: { type: String, required: true },
@@ -22,15 +25,27 @@ const SessionSchema = new mongoose.Schema(
       gradeLevel: {
         type: String,
         enum: [
-          "primary",          // grade 1–5
-          "middle",           //  6–8
-          "secondary",        //  9–10
+          "primary", // grade 1–5
+          "middle", //  6–8
+          "secondary", //  9–10
           "senior-secondary", //  11–12
           "college",
           "other",
         ],
       },
     },
+
+    feedbacks: [
+      {
+        userId: mongoose.Schema.Types.ObjectId,
+        rating: {
+          type: Number,
+          required: true,
+        },
+        feedbackMessage: String,
+        
+      },
+    ],
 
     sessionSetting: {
       duration: { type: Number, default: 30 }, // in minutes
@@ -68,9 +83,15 @@ const SessionSchema = new mongoose.Schema(
 );
 
 SessionSchema.pre("save", async function (next) {
-  if (this.isModified("privacySetting.password") && this.privacySetting.password) {
+  if (
+    this.isModified("privacySetting.password") &&
+    this.privacySetting.password
+  ) {
     const salt = await bcrypt.genSalt(10);
-    this.privacySetting.password = await bcrypt.hash(this.privacySetting.password, salt);
+    this.privacySetting.password = await bcrypt.hash(
+      this.privacySetting.password,
+      salt
+    );
   }
   next();
 });

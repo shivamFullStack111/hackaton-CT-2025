@@ -65,10 +65,14 @@ const initializeSocket = (server) => {
     });
 
     // when change in exceildraw
-
     socket.on("update-exceil-change", ({ roomId, elements }) => {
       console.log(elements, roomId);
       socket.broadcast.to(roomId).emit("update-exceil-change", elements);
+    });
+
+    // emit to all users of session to notify that session is ended | this emit only come from host of the session
+    socket.on("session-ended", ({ roomId, session_id }) => {
+      socket.broadcast.to(roomId).emit("session-ended", { roomId, session_id });
     });
 
     // handle kick users

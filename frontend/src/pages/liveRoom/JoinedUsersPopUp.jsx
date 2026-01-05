@@ -62,7 +62,7 @@ const JoinedUsersPopUp = ({ setactiveUsersPopUpOpen, allUsersData, roomData, han
                                         </div>
 
                                         <div>
-                                            <h3 className='font-semibold text-white text-lg'>{usr?.name} {usr?._id == roomData?.createdBy && <span className='text-gray-500 text-sm'>(Host)</span>}</h3>
+                                            <h3 className='font-semibold text-white text-lg'>{usr?.name} {usr?._id == roomData?.createdBy?._id && <span className='text-gray-500 text-sm'>(Host)</span>}</h3>
                                             <p className='text-gray-400 text-sm'>{usr?.email}</p>
                                         </div>
                                     </div>
@@ -105,7 +105,7 @@ const JoinedUsersPopUp = ({ setactiveUsersPopUpOpen, allUsersData, roomData, han
                                     </button> */}
 
                                         {/* Kick Button */}
-                                        {user?._id == roomData?.createdBy && usr?._id !== roomData?.createdBy &&
+                                        {user?._id == roomData?.createdBy?._id && usr?._id !== roomData?.createdBy?._id &&
                                             <button
                                                 onClick={() => setKickingUserId(usr?._id)}
                                                 className='px-4 py-2 rounded-lg text-sm font-medium text-red-500 border border-red-500 hover:bg-red-500 hover:text-white transition-colors duration-200'

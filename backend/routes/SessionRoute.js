@@ -1,11 +1,12 @@
-const express = require("express")
+const express = require("express");
 const {
   createSession,
   getAllSessions,
   joinSession,
   endSession,
   getSessionById,
-} = require("../controller/SessionController")
+  addFeedback
+} = require("../controller/SessionController");
 
 const sessionRoutes = express.Router();
 
@@ -14,5 +15,6 @@ sessionRoutes.get("/get-all", getAllSessions);
 sessionRoutes.get("/:roomId", getSessionById);
 sessionRoutes.post("/:roomId/join", joinSession);
 sessionRoutes.post("/:roomId/end", endSession);
+sessionRoutes.post("/:roomId/add-feedback",addFeedback)
 
 module.exports = { sessionRoutes };

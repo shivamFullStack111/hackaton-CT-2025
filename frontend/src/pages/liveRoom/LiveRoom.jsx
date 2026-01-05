@@ -1,15 +1,12 @@
 /* eslint-disable no-unused-vars */
 import Header from "./Header";
-import { FaChevronUp } from "react-icons/fa6";
-import { AiOutlineAudio } from "react-icons/ai";
-import { CiVideoOn } from "react-icons/ci";
+
 import { useEffect, useRef, useState } from "react";
 import SidebarLeft from "./SidebarLeft";
 import { Excalidraw } from "@excalidraw/excalidraw";
 import "../../../node_modules/@excalidraw/excalidraw/dist/dev/index.css";
 import SidebarRight from "./SidebarRight";
 import MyEditor from "@monaco-editor/react";
-import JoinedUsersPopUp from "./JoinedUsersPopUp";
 import io from "socket.io-client";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,6 +17,8 @@ import Call_Controls from "./Call_Controls";
 import CreateQuiz from "./Create_Quiz/CreateQuiz";
 import QuizPage from "./QuizPage";
 import Dashboard from "./Dashboard";
+import SessionEndedByHostOverlay from "./SessionEndedByHostOverlay";
+import SessionEndedOverlay from "./SessionEndedOverlay";
 
 const socket = io("http://localhost:8888");
 
@@ -38,6 +37,35 @@ const LiveRoom = () => {
   const { user } = useSelector((state) => state.user);
   const { id: roomId } = useParams();
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
+
+  // this state use when session ended by host only for first time
+  const [isSessionEndedByHost, setisSessionEndedByHost] = useState(false);
+
+  // This useEffect run when host accidentaly leave room
+  // this useEffect calling the function which is ending the liveRoom and sending socket emit of session ending
+  useEffect(() => {
+    return () => {
+      if (user?._id == roomData?.createdBy?._id) {
+        endSession();
+      }
+    };
+  }, [roomData, user]);
+
+  const endSession = async () => {
+    socket.emit("session-ended", {
+      session_id: roomData?._id,
+      roomId: roomData?.roomId,
+    });
+
+    const res = await axios.post(
+      `http://localhost:8888/api/session/${roomData?._id}/end`,
+      {}
+    );
+
+    if (res?.data?.success) {
+      setisSessionEndedByHost(true);
+    }
+  };
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -60,6 +88,9 @@ const LiveRoom = () => {
       try {
         const res = await axios.get(DB_URL + "/session/" + roomId);
         setroomData(res.data?.session);
+        if (!res.data?.session) {
+          setroomData(null);
+        }
       } catch (error) {
         toast.error(error.message);
       }
@@ -98,6 +129,12 @@ const LiveRoom = () => {
         navigate("/");
       });
 
+      socket.on("session-ended", ({ session_id, roomId }) => {
+        setisSessionEndedByHost(true);
+        setroomData((p) => ({ ...p, endedDateTime: new Date() }));
+        console.log("first");
+      });
+
       socket.on("live-chat-message", ({ senderData, message }) => {
         setallLiveChatMessages((p) => [...p, { sender: senderData, message }]);
         console.table(senderData, message);
@@ -125,11 +162,11 @@ const LiveRoom = () => {
 
   // all messages and code send for new user
   useEffect(() => {
-    if (!socket || !user?._id || !roomData?.createdBy) return;
+    if (!socket || !user?._id || !roomData?.createdBy?._id) return;
 
     // this is only for admin because when new user will add admin send (all messages and code editor value).
     socket.on("single-user-added", ({ userId, roomId, userSocketId }) => {
-      // if (user?._id == roomData?.createdBy) {
+      // if (user?._id == roomData?.createdBy?._id) {
       //   console.log("first77777777777777777777", codeEditorCurrentValue);
       //   socket.emit("editor-code-change", {
       //     newVal: codeEditorCurrentValue,
@@ -137,7 +174,7 @@ const LiveRoom = () => {
       //   });
       // }
       if (
-        user?._id == roomData?.createdBy &&
+        user?._id == roomData?.createdBy?._id &&
         (allLiveChatMessages?.length > 0 || codeEditorCurrentValue)
       ) {
         console.log("senddddd--", roomId);
@@ -154,7 +191,7 @@ const LiveRoom = () => {
     };
   }, [
     codeEditorCurrentValue,
-    roomData?.createdBy,
+    roomData?.createdBy?._id,
     user?._id,
     allLiveChatMessages,
   ]);
@@ -196,100 +233,119 @@ const LiveRoom = () => {
 
   return (
     <>
-      <div className="w-[100vw] bg-gray-900 overflow-hidden">
-        <Header
-          handleKickUser={handleKickUser}
-          activeUsersPopUpOpen={activeUsersPopUpOpen}
-          allJoindedUsers={allJoindedUsers}
+      {isSessionEndedByHost && (
+        <SessionEndedByHostOverlay
+        user={user}
           roomData={roomData}
-          setactiveUsersPopUpOpen={setactiveUsersPopUpOpen}
-          setlanguage={setlanguage}
-          settheme={settheme}
-          currentPage={currentPage}
-        ></Header>
-        <div className="h-[89.3vh] flex ">
-          {/* sidebar left */}
-          <SidebarLeft
-            currentPage={currentPage}
-            setcurrentPage={setcurrentPage}
-            programingLanguage={language}
-            codeEditorCurrentValue={codeEditorCurrentValue}
-            setcodeEditorCurrentValue={setcodeEditorCurrentValue}
+          isHost={false}
+        ></SessionEndedByHostOverlay>
+      )}
+
+      {(!roomData || roomData?.ended == true) && (
+        <SessionEndedOverlay
+          roomData={roomData}
+          isRoomFound={roomData ? true : false}
+        />
+      )}
+
+      {roomData && roomData?.ended == false && (
+        <div className="w-[100vw] bg-gray-900 overflow-hidden">
+          <Header
+            handleKickUser={handleKickUser}
+            activeUsersPopUpOpen={activeUsersPopUpOpen}
+            allJoindedUsers={allJoindedUsers}
             roomData={roomData}
-          ></SidebarLeft>
+            setactiveUsersPopUpOpen={setactiveUsersPopUpOpen}
+            setlanguage={setlanguage}
+            settheme={settheme}
+            currentPage={currentPage}
+          ></Header>
+          <div className="h-[89.3vh] flex ">
+            {/* sidebar left */}
+            <SidebarLeft
+              currentPage={currentPage}
+              setcurrentPage={setcurrentPage}
+              programingLanguage={language}
+              codeEditorCurrentValue={codeEditorCurrentValue}
+              setcodeEditorCurrentValue={setcodeEditorCurrentValue}
+              roomData={roomData}
+            ></SidebarLeft>
 
-          {/* main section */}
-          <div className="w-full bg-white overflow-hidden h-full flex flex-col ">
-            <div className="h-full relative  w-full">
-              {/* Whiteboard */}
-              <div
-                style={{ display: currentPage === "whiteboard" ? "" : "none" }}
-                className="w-full h-[100.5%] bg-gray-900 z-30"
-              >
-                <Excalidraw
-                  excalidrawAPI={(api) => setExcalidrawAPI(api)}
-                  //   ref={excalidrawRef}
-                  onChange={(elements) => handleExceilDrawChange(elements)}
-                />
-              </div>
-
-              {/* Editor */}
-              <div
-                style={{ display: currentPage === "editor" ? "" : "none" }}
-                className="w-full h-[100.5%] bg-gray-900 z-30"
-              >
-                <MyEditor
-                  theme={theme}
-                  value={codeEditorCurrentValue}
-                  language={language}
-                  onChange={(newVal) => {
-                    setcodeEditorCurrentValue(newVal);
-                    changeEditorCodeHandler(newVal);
+            {/* main section */}
+            <div className="w-full bg-white overflow-hidden h-full flex flex-col ">
+              <div className="h-full relative  w-full">
+                {/* Whiteboard */}
+                <div
+                  style={{
+                    display: currentPage === "whiteboard" ? "" : "none",
                   }}
-                />
-              </div>
+                  className="w-full h-[100.5%] bg-gray-900 z-30"
+                >
+                  <Excalidraw
+                    excalidrawAPI={(api) => setExcalidrawAPI(api)}
+                    //   ref={excalidrawRef}
+                    onChange={(elements) => handleExceilDrawChange(elements)}
+                  />
+                </div>
 
-              {/*Ai Quiz generator */}
-              <div
-                style={{
-                  display: currentPage === "quiz-generator" ? "" : "none",
-                }}
-                className="w-full h-[100.5%] bg-gray-900 z-30"
-              >
-                <CreateQuiz />
-              </div>
+                {/* Editor */}
+                <div
+                  style={{ display: currentPage === "editor" ? "" : "none" }}
+                  className="w-full h-[100.5%] bg-gray-900 z-30"
+                >
+                  <MyEditor
+                    theme={theme}
+                    value={codeEditorCurrentValue}
+                    language={language}
+                    onChange={(newVal) => {
+                      setcodeEditorCurrentValue(newVal);
+                      changeEditorCodeHandler(newVal);
+                    }}
+                  />
+                </div>
 
-              {/* Quiz For Users */}
-              <div
-                style={{ display: currentPage === "quiz" ? "" : "none" }}
-                className="w-full h-[100.5%] bg-gray-900 z-30"
-              >
-                <QuizPage />
-              </div>
+                {/*Ai Quiz generator */}
+                <div
+                  style={{
+                    display: currentPage === "quiz-generator" ? "" : "none",
+                  }}
+                  className="w-full h-[100.5%] bg-gray-900 z-30"
+                >
+                  <CreateQuiz />
+                </div>
 
-              {/* Dashboard */}
-              <div
-                style={{ display: currentPage === "dashboard" ? "" : "none" }}
-                className="w-full h-[100.5%] bg-gray-900 z-30"
-              >
-                <Dashboard />
-              </div>
+                {/* Quiz For Users */}
+                <div
+                  style={{ display: currentPage === "quiz" ? "" : "none" }}
+                  className="w-full h-[100.5%] bg-gray-900 z-30"
+                >
+                  <QuizPage />
+                </div>
 
-              <Call_Controls />
+                {/* Dashboard */}
+                <div
+                  style={{ display: currentPage === "dashboard" ? "" : "none" }}
+                  className="w-full h-[100.5%] bg-gray-900 z-30"
+                >
+                  <Dashboard />
+                </div>
+
+                <Call_Controls />
+              </div>
             </div>
-          </div>
 
-          {/* sidebar right */}
-          <SidebarRight
-            roomData={roomData}
-            setallLiveChatMessages={setallLiveChatMessages}
-            allLiveChatMessages={allLiveChatMessages}
-            handleSendMessage={handleSendMessage}
-            currentPage={currentPage}
-            setcurrentPage={setcurrentPage}
-          ></SidebarRight>
+            {/* sidebar right */}
+            <SidebarRight
+              roomData={roomData}
+              setallLiveChatMessages={setallLiveChatMessages}
+              allLiveChatMessages={allLiveChatMessages}
+              handleSendMessage={handleSendMessage}
+              currentPage={currentPage}
+              setcurrentPage={setcurrentPage}
+            ></SidebarRight>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

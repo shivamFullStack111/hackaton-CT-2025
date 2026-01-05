@@ -47,7 +47,7 @@ const SidebarRight = ({
   const participants = Array.isArray(roomData?.participants)
     ? roomData.participants
     : [];
-  const isTeacher = user?._id === roomData?.createdBy;
+  const isTeacher = user?._id === roomData?.createdBy?._id;
 
   // Reactions for messages
   const reactions = ["👍", "❤️", "😂", "😮", "😢", "👏"];
@@ -205,7 +205,7 @@ const SidebarRight = ({
                   {participant?.name?.charAt(0) || "U"}
                 </span>
               </div>
-              {participant?._id === roomData?.createdBy && (
+              {participant?._id === roomData?.createdBy?._id && (
                 <div className="absolute -top-1 -right-1">
                   <Crown className="h-3 w-3 text-yellow-400" />
                 </div>
@@ -214,7 +214,7 @@ const SidebarRight = ({
             <div className="flex-1">
               <p className="text-sm text-white truncate">
                 {participant?.name || "Unknown User"}
-                {participant?._id === roomData?.createdBy && " 👑"}
+                {participant?._id === roomData?.createdBy?._id && " 👑"}
               </p>
               <p className="text-xs text-gray-400">Active now</p>
             </div>
