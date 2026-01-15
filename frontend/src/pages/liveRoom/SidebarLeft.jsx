@@ -60,7 +60,7 @@ const SidebarLeft = ({
     //   label: "Dashboard",
     //   active: currentPage === "dashboard",
     //   onClick: () => setcurrentPage("dashboard"),
-    //   visible: true,
+    //   visible: true,http://localhost:5173/home
     // },
     {
       id: "ai-review",
@@ -210,23 +210,7 @@ const SidebarLeft = ({
           </div>
 
           {/* User Info */}
-          {!isSidebarCollapsed && user && (
-            <div className="p-4 border-t border-gray-800">
-              <div className="flex items-center gap-3">
-                <div className="h-8 w-8 rounded-full bg-gradient-to-r from-purple-600 to-teal flex items-center justify-center">
-                  <span className="text-white text-sm font-bold">
-                    {user.name?.charAt(0) || "U"}
-                  </span>
-                </div>
-                <div>
-                  <p className="text-sm text-white truncate">{user.name}</p>
-                  <p className="text-xs text-gray-400">
-                    {isTeacher ? "Teacher 👑" : "Student"}
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
+          
 
           {/* Exit Button */}
           <button

@@ -14,6 +14,7 @@ import IfLogedOut from "./routes/IfLogedOut";
 import IfLogedIn from "./routes/IfLogedIn";
 import Home from "./pages/Home/Home";
 import GrammarChecker from "./pages/GrammerChecker/GrammerChecker";
+import QuizResultPage from "./pages/liveRoom/QuizResultPage";
 
 const App = () => {
   const { user } = useSelector((state) => state.user);
@@ -27,7 +28,7 @@ const App = () => {
     }
     dispatch(setLoading(false));
   }, []);
-  
+
   return (
     <>
       <BrowserRouter>
@@ -37,19 +38,21 @@ const App = () => {
           <Route path="/" element={<LandingPage />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
-          <Route path="/home" element={<Home />}></Route>
 
           {/* protected routes if loggedin */}
           <Route element={<IfLogedIn />}>
             <Route path="/create-session" element={<CreateSession />}></Route>
             <Route path="/join-session" element={<JoinSession />}></Route>
+            <Route path="/home" element={<Home />}></Route>
+
             <Route
               path="/personal-assistent"
               element={<PersonalAIAssistant />}
             ></Route>
+            <Route path="/grammer-checker" element={<GrammarChecker />}></Route>
             <Route
-              path="/grammer-checker"
-              element={<GrammarChecker />}
+              path="/quiz-result/:resultId"
+              element={<QuizResultPage />}
             ></Route>
 
             <Route path="/room/:id" element={<LiveRoom />}></Route>

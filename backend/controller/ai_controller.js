@@ -3,7 +3,10 @@ const {
   grammer_checker_function,
   quiz_generator,
   AiCode_review,
+  quiz_checker,
 } = require("../utils/ai-functions");
+const QuizResult = require("../schemas/quizResultSchema");
+const Quiz = require("../schemas/quizSchema");
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -93,9 +96,60 @@ const generate_quiz = async (req, res) => {
   }
 };
 
+const check_quiz = async (req, res) => {
+  try {
+    const { studentAnswers, quiz, quizId, userId, time } = req.body;
+    const completion = await quiz_checker(quiz, studentAnswers);
+    const {
+      passed,
+      totalScore,
+      percentage,
+      totalQuestions,
+      correctAnswers,
+      questionAnswerExplanations,
+    } = JSON.parse(completion.choices[0].message.content);
+
+    const quizResult = new QuizResult({
+      quizId,
+      userId,
+      passed,
+      totalScore,
+      percentage,
+      totalQuestions,
+      correctAnswers,
+      questionAnswerExplanations,
+      time: {
+        timeLeft: time?.timeLeft,
+        totalQuizTime: time?.totalQuizTime,
+      },
+      timeTaken: time?.totalQuizTime - time?.timeLeft,
+    });
+
+    await quizResult.save();
+
+    const quizDetails = await Quiz.findOne({ _id: quizId });
+
+    const result = quizResult;
+
+    return res.send({
+      success: true,
+      message: "Quiz check and saved!",
+      result: {
+        ...result.toObject(),
+        quizDetails: quizDetails,
+      },
+    });
+
+    // const
+  } catch (error) {
+    return res.send({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   personalized_chat,
   code_review,
   grammer_checker,
   generate_quiz,
+  check_quiz,
 };

@@ -115,7 +115,7 @@ You are a grammer checker specialist you must have to return valid json
   }
 };
 
-const AiCode_review = async (allMessages,reviewMode) => {
+const AiCode_review = async (allMessages, reviewMode) => {
   try {
     const completion = await groq.chat.completions.create({
       model: "llama-3.1-8b-instant",
@@ -142,7 +142,128 @@ Right now user use ${reviewMode} Mode.
       ],
     });
 
-    return completion
+    return completion;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const quiz_checker = async (quiz, studentAnswers) => {
+  try {
+    const completion = await groq.chat.completions.create({
+      model: "openai/gpt-oss-120b",
+      temperature: 0,
+
+      messages: [
+        {
+          role: "system",
+          content: `
+         You are a quiz checker.
+         You will get different types of questions with different marks.
+         You will also get student answers you have to check all answers and calculate the result.
+         The questions that have not been answered should be given 0 marks. 
+         Passing Percentage is 60
+         Option number is provide for Questions like true-false, mcq 
+          example: Question 1st has 4 option in user answer object {1:"a",1:"d"} means these are option number from question Object
+`,
+        },
+        {
+          role: "user",
+          content: `
+          Quiz Data: ${JSON.stringify(quiz, null, 2)}
+          Student Answer: ${JSON.stringify(studentAnswers, null, 2)}
+          `,
+        },
+      ],
+
+      response_format: {
+        type: "json_schema",
+        strict: true,
+        json_schema: {
+          name: "quiz_checker",
+
+          schema: {
+            type: "object",
+            additionalProperties: false,
+            properties: {
+              passed: {
+                type: "boolean",
+                description: "User result",
+              },
+              questionAnswerExplanations: {
+                type: "array",
+                properties: {
+                  questionId: {
+                    type: "number",
+                  },
+                  // new add-----
+                  question: {
+                    type: "string",
+                    description: "actual question",
+                  },
+                  marks: {
+                    type: "number",
+                    description: "Question marks",
+                  },
+                  userAnswer: {
+                    type: "string",
+                    description: "user answer if the question type true-false or mcq user provided option number but you have to return actual answer not option number",
+                  },
+                  correctAnswer: {
+                    type: "string",
+                    description: "correct answer",
+                  },
+                  //new add end-----
+
+                  explanation: {
+                    type: "string",
+                    description: "Give explanation of quetion and answer",
+                  },
+                  isCorrect: {
+                    type: "boolean",
+                    description: "is correct answered by user",
+                  },
+                },
+                required: [
+                  "questionId",
+                  "question",
+                  "marks",
+                  "userAnswer",
+                  "correctAnswer",
+                  "explanation",
+                  "isCorrect",
+                ],
+              },
+              totalScore: {
+                type: "number",
+                description: "Total score according to user answers",
+              },
+              percentage: {
+                type: "number",
+                description: "Result percentage",
+              },
+              totalQuestions: {
+                type: "number",
+                description: "Total number of Questions",
+              },
+              correctAnswers: {
+                type: "number",
+                description: "Total correct",
+              },
+            },
+            required: [
+              "passed",
+              "totalScore",
+              "percentage",
+              "totalQuestions",
+              "correctAnswers",
+            ],
+          },
+        },
+      },
+    });
+console.log(completion.choices[0].message.content)
+    return completion;
   } catch (error) {
     console.log(error.message);
   }
@@ -165,8 +286,9 @@ const quiz_generator = async (
          You are a quiz generator you have to generate questions 
          User will provide you difficulty level and total numbers of quiz questions
          User will also provide you quiz requirements or topics for quiz 
+         Marks of question must between 1 to 10 according to question type and difficulty
         (Important)
-          It is not compulsary to create question of all types only that question which can be create accordig to give topic and requirement by user example some of the topic doesnt have code implementation like (history,economics,GK,science,maths) etc.
+          It is not compulsary to create question of all types only that question which can be create accordig to given topic and requirements by user example some of the topic doesn't have code implementation like (history,economics,GK,science) etc.
 
          You have to generate different types of questions:
          1. MCQ
@@ -190,7 +312,7 @@ const quiz_generator = async (
         type: "json_schema",
         strict: true,
         json_schema: {
-          name: "grammar_checker_response",
+          name: "quiz_generator",
 
           schema: {
             type: "object",
@@ -275,6 +397,22 @@ const quiz_generator = async (
                       type: "string",
                       description: "Question and answer explanation (optional)",
                     },
+                    testCases: {
+                      type: "object",
+                      additionalProperties: false,
+                      description: "Test cases for code type question",
+                      properties: {
+                        input: {
+                          type: "string",
+                        },
+                        output: {
+                          type: "string",
+                        },
+                      },
+                    },
+                    codeTemplate: {
+                      type: "string",
+                    },
                   },
                   required: ["id", "type", "question", "marks"],
                 },
@@ -305,5 +443,6 @@ const quiz_generator = async (
 module.exports = {
   grammer_checker_function,
   quiz_generator,
-  AiCode_review
+  AiCode_review,
+  quiz_checker,
 };

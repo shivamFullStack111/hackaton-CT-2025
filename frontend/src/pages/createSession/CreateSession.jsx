@@ -369,6 +369,64 @@ const CreateSession = () => {
                   </div>
                 </div>
 
+                {/* security  */}
+
+                <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700 mb-6">
+                  <h2 className="text-2xl font-bold text-white mb-6">
+                    Security
+                  </h2>
+
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="text-white text-lg">Secured</div>
+                      <div
+                        style={{
+                          backgroundColor: privacySetting?.isPrivate
+                            ? "#9333ea"
+                            : "transparent",
+                        }}
+                        onClick={() => {
+                          setprivacySetting((p) => ({
+                            isPrivate: !p.isPrivate,
+                          }));
+                        }}
+                        className="w-12 h-6 border cursor-pointer bg-purple-600 rounded-full flex items-center "
+                      >
+                        <motion.div
+                          initial={{
+                            x: privacySetting?.isPrivate ? 19 : 0,
+                          }}
+                          transition={{ duration: 0.2 }}
+                          animate={{
+                            x: privacySetting?.isPrivate ? 19 : 0,
+                          }}
+                          className="w-5 h-5 bg-white rounded-full mr-1 ml-1"
+                        ></motion.div>
+                      </div>
+                    </div>
+                    {privacySetting?.isPrivate && (
+                      <div>
+                        <label className="block text-white text-lg font-semibold mb-3">
+                          Password
+                        </label>
+                        <div className="bg-gray-750 border border-gray-600 rounded-xl p-4 text-white text-lg">
+                          <input
+                            onChange={(e) =>
+                              setprivacySetting((p) => ({
+                                ...p,
+                                password: e.target.value,
+                              }))
+                            }
+                            value={privacySetting?.password}
+                            className="outline-none bg-transparent h-full w-full text-gray-300"
+                            type="password"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700">
                   <h2 className="text-2xl font-bold text-white mb-6">
                     Quick Actions
@@ -399,13 +457,13 @@ const CreateSession = () => {
 
                   <div className="bg-gray-750 rounded-xl p-4 border border-gray-600">
                     <div className="text-white font-semibold text-lg mb-2">
-                      Advanced Mathematics
+                      {sessionInfo.subject}
                     </div>
                     <div className="text-gray-400 text-sm mb-3">
-                      Calculus Workshop
+                      {sessionInfo?.title}
                     </div>
 
-                    <div className="flex items-center justify-between text-gray-300 text-sm mb-2">
+                    {/* <div className="flex items-center justify-between text-gray-300 text-sm mb-2">
                       <span>Duration:</span>
                       <span>{sessionSetting?.duration || 10} mins</span>
                     </div>
@@ -413,11 +471,27 @@ const CreateSession = () => {
                     <div className="flex items-center justify-between text-gray-300 text-sm mb-2">
                       <span>Participants:</span>
                       <span>{sessionSetting?.maxParticipants || 50}/5000</span>
-                    </div>
+                    </div> */}
 
                     <div className="flex items-center justify-between text-gray-300 text-sm">
                       <span>Status:</span>
-                      <span className="text-green-500">Ready</span>
+                      <span
+                        className={`${
+                          sessionInfo?.title &&
+                          sessionInfo?.description &&
+                          sessionInfo?.subject &&
+                          sessionInfo?.gradeLevel
+                            ? " text-green-500 "
+                            : " text-red-500 "
+                        }`}
+                      >
+                        {sessionInfo?.title &&
+                        sessionInfo?.description &&
+                        sessionInfo?.subject &&
+                        sessionInfo?.gradeLevel
+                          ? "Ready"
+                          : "Not Ready"}
+                      </span>
                     </div>
                   </div>
                 </div>

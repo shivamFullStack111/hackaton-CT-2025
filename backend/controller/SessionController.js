@@ -103,7 +103,7 @@ const addFeedback = async (req, res) => {
     const { feedbackMessage, rating, userId } = req.body;
     const { roomId } = req.params;
 
-    const roomData = await Session.findOne({_id:roomId});
+    const roomData = await Session.findOne({ _id: roomId });
 
     const addedFeedbacks = [
       ...roomData?.feedbacks,
@@ -114,7 +114,14 @@ const addFeedback = async (req, res) => {
       },
     ];
 
+    const totalRatings = addedFeedbacks.reduce((total, val) => total += val.rating, 0);
+    const avgRating = totalRatings / addedFeedbacks?.length;
+
+    console.log(avgRating)
+
+    roomData.ratings = avgRating
     roomData.feedbacks = addedFeedbacks;
+
     await roomData.save();
 
     return res.send({ success: true, message: "Feedback Added" });

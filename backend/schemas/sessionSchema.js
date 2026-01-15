@@ -34,7 +34,9 @@ const SessionSchema = new mongoose.Schema(
         ],
       },
     },
-
+    ratings:{
+      type:Number
+    },
     feedbacks: [
       {
         userId: mongoose.Schema.Types.ObjectId,

@@ -323,12 +323,12 @@ const SidebarRight = ({
           </button>
 
           {/* Navigation Items */}
-          <div className="flex-1 py-4">
+          <div className="flex flex-col  h-full pt-4">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={item.onClick}
-                className={`relative group w-full p-4 ${
+                className={`relative  group w-full p-4 ${
                   item.active
                     ? "text-purple-400"
                     : "text-gray-400 hover:text-white"
@@ -356,7 +356,7 @@ const SidebarRight = ({
             {roomData?.sessionFeatures?.liveChat && (
               <button
                 onClick={() => setIsLiveChatOpen(true)}
-                className={`relative group w-full p-4 ${
+                className={`relative mt-auto border-t border-gray-800 group w-full p-4 ${
                   isLiveChatOpen
                     ? "text-teal"
                     : "text-gray-400 hover:text-white"

@@ -46,7 +46,7 @@ const LiveRoom = () => {
   useEffect(() => {
     return () => {
       if (user?._id == roomData?.createdBy?._id) {
-        endSession();
+        // endSession();
       }
     };
   }, [roomData, user]);
@@ -126,7 +126,10 @@ const LiveRoom = () => {
       });
 
       socket.on("kick-user", ({ message }) => {
-        navigate("/");
+        toast.error(message);
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
       });
 
       socket.on("session-ended", ({ session_id, roomId }) => {
@@ -235,7 +238,7 @@ const LiveRoom = () => {
     <>
       {isSessionEndedByHost && (
         <SessionEndedByHostOverlay
-        user={user}
+          user={user}
           roomData={roomData}
           isHost={false}
         ></SessionEndedByHostOverlay>
@@ -311,7 +314,7 @@ const LiveRoom = () => {
                   }}
                   className="w-full h-[100.5%] bg-gray-900 z-30"
                 >
-                  <CreateQuiz />
+                  <CreateQuiz roomData={roomData} />
                 </div>
 
                 {/* Quiz For Users */}
@@ -319,7 +322,7 @@ const LiveRoom = () => {
                   style={{ display: currentPage === "quiz" ? "" : "none" }}
                   className="w-full h-[100.5%] bg-gray-900 z-30"
                 >
-                  <QuizPage />
+                  <QuizPage user={user} roomData={roomData} />
                 </div>
 
                 {/* Dashboard */}
@@ -330,7 +333,7 @@ const LiveRoom = () => {
                   <Dashboard />
                 </div>
 
-                <Call_Controls />
+                {/* <Call_Controls  isCallingButtonsOn={isCallingButtonsOn} setisCallingButtonsOn={setisCallingButtonsOn}/> */}
               </div>
             </div>
 

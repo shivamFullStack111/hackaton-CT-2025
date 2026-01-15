@@ -62,9 +62,9 @@ const Home = () => {
             <div>
               <div className="flex relative justify-between">
                 <motion.div
-                  initial={{ y: -20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.5 }}
+                  // initial={{ y: -20, opacity: 0 }}
+                  // animate={{ y: 0, opacity: 1 }}
+                  // transition={{ duration: 0.5 }}
                   className="text-4xl font-bold text-white"
                 >
                   Welcome back, {user?.name}
@@ -85,8 +85,8 @@ const Home = () => {
                         <p className="font-bold text-white"> {user?.name}</p>
                         <motion.div
                           initial={{ rotate: 0 }}
-                          transition={{ duration: 0.2 }}
-                          animate={{ rotate: profileOptionsBarOpen ? 180 : 0 }}
+                          // transition={{ duration: 0.2 }}
+                          // animate={{ rotate: profileOptionsBarOpen ? 180 : 0 }}
                         >
                           <FaChevronDown className="text-white" />
                         </motion.div>
@@ -123,9 +123,9 @@ const Home = () => {
                 </div>
               </div>
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 1 }}
+                // initial={{ opacity: 0 }}
+                // animate={{ opacity: 1 }}
+                // transition={{ duration: 1, delay: 1 }}
               >
                 <p className="text-gray-300 font-semibold mt-6">
                   Ready to continue your journey!
@@ -136,9 +136,9 @@ const Home = () => {
               </motion.div>
               <div className="flex items-center mt-6 gap-6">
                 <motion.div
-                  initial={{ x: -50, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 1, delay: 1.3 }}
+                  // initial={{ x: -50, opacity: 0 }}
+                  // animate={{ x: 0, opacity: 1 }}
+                  // transition={{ duration: 1, delay: 1.3 }}
                 >
                   <Link
                     to={"/create-session"}
@@ -149,9 +149,9 @@ const Home = () => {
                 </motion.div>
                 <motion.div
                   to
-                  initial={{ x: 50, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 1, delay: 1.3 }}
+                  // initial={{ x: 50, opacity: 0 }}
+                  // animate={{ x: 0, opacity: 1 }}
+                  // transition={{ duration: 1, delay: 1.3 }}
                 >
                   <Link
                     to={"/join-session"}
@@ -234,12 +234,12 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="mt-2 w-full flex justify-between ">
-                  <div className="flex items-center gap-1">
+                  {/* <div className="flex items-center gap-1">
                     <FaStar size={23} className="text-yellow-500" />
                     <p className="text-sm font-semibold text-white">
                       4.5 (ratings)
                     </p>
-                  </div>
+                  </div> */}
                   <Link
                     to={"/personal-assistent"}
                     className="bg-purple-600 px-6  ml-auto py-1 rounded-full text-white font-bold hover:scale-105 transition-all duration-300"
@@ -278,12 +278,12 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="mt-2 w-full flex justify-between ">
-                  <div className="flex items-center gap-1">
+                  {/* <div className="flex items-center gap-1">
                     <FaStar size={23} className="text-yellow-500" />
                     <p className="text-sm font-semibold text-white">
                       4.9 (ratings)
                     </p>
-                  </div>
+                  </div> */}
                   <Link
                     to={"/grammer-checker"}
                     className="bg-purple-600 px-6  ml-auto py-1 rounded-full text-white font-bold hover:scale-105 transition-all duration-300"

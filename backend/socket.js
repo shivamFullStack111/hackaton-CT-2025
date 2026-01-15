@@ -78,10 +78,10 @@ const initializeSocket = (server) => {
     // handle kick users
     socket.on("kick-user", (userId) => {
       console.log(userId, "kick");
-      const socketId = userIdToSocketId.get(userId);
+      const socketId = userIdToSocketId.get(userId) ;
 
       let newJoindedUsers = joindedUsers.filter(
-        (usr) => usr.socketId != socket.id
+        (usr) => usr.socketId == socket.id
       );
       joindedUsers = [...newJoindedUsers];
 
