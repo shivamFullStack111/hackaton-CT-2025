@@ -15,6 +15,7 @@ import IfLogedIn from "./routes/IfLogedIn";
 import Home from "./pages/Home/Home";
 import GrammarChecker from "./pages/GrammerChecker/GrammerChecker";
 import QuizResultPage from "./pages/liveRoom/QuizResultPage";
+import SecurityCheck_RootPage from "./pages/liveRoom/SecurityCheck_RootPage";
 
 const App = () => {
   const { user } = useSelector((state) => state.user);
@@ -55,7 +56,7 @@ const App = () => {
               element={<QuizResultPage />}
             ></Route>
 
-            <Route path="/room/:id" element={<LiveRoom />}></Route>
+            <Route path="/room/:id" element={<SecurityCheck_RootPage />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

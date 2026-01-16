@@ -1229,6 +1229,14 @@ const CompactQuizBoxes = ({ quizzes = [], setselectedQuizData }) => {
             </button>
           </div>
         ))}
+
+        {!quizzes?.length && (
+          <div className="flex w-full col-span-3 justify-center items-center">
+            {/* <div className="flex rounded-lg border border-gray-700 bg-slate-900 p-12"> */}
+              <p className="text-gray-500 mt-10 ">No Quiz Found!</p>
+            {/* </div> */}
+          </div>
+        )}
       </div>
     </div>
   );

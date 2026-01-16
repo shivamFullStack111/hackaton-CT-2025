@@ -114,17 +114,41 @@ const addFeedback = async (req, res) => {
       },
     ];
 
-    const totalRatings = addedFeedbacks.reduce((total, val) => total += val.rating, 0);
+    const totalRatings = addedFeedbacks.reduce(
+      (total, val) => (total += val.rating),
+      0
+    );
     const avgRating = totalRatings / addedFeedbacks?.length;
 
-    console.log(avgRating)
+    console.log(avgRating);
 
-    roomData.ratings = avgRating
+    roomData.ratings = avgRating;
     roomData.feedbacks = addedFeedbacks;
 
     await roomData.save();
 
     return res.send({ success: true, message: "Feedback Added" });
+  } catch (error) {
+    return res.send({ success: false, message: error.message });
+  }
+};
+
+const verifyPassword = async (req, res) => {
+  try {
+    const { roomId, password } = req.body;
+
+    const session = await Session.findOne({ _id: roomId });
+
+    const isMatch = await bcrypt.compare(
+      password,
+      session?.privacySetting?.password
+    );
+
+    if (isMatch) {
+      return res.send({ success: true, message: "Verified!" });
+    }
+
+    return res.send({ success: false, message: "Incorrect Password!" });
   } catch (error) {
     return res.send({ success: false, message: error.message });
   }
@@ -137,4 +161,5 @@ module.exports = {
   endSession,
   joinSession,
   addFeedback,
+  verifyPassword
 };

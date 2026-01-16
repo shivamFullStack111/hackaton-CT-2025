@@ -5,7 +5,8 @@ const {
   joinSession,
   endSession,
   getSessionById,
-  addFeedback
+  addFeedback,
+  verifyPassword,
 } = require("../controller/SessionController");
 
 const sessionRoutes = express.Router();
@@ -15,6 +16,7 @@ sessionRoutes.get("/get-all", getAllSessions);
 sessionRoutes.get("/:roomId", getSessionById);
 sessionRoutes.post("/:roomId/join", joinSession);
 sessionRoutes.post("/:roomId/end", endSession);
-sessionRoutes.post("/:roomId/add-feedback",addFeedback)
+sessionRoutes.post("/:roomId/add-feedback", addFeedback);
+sessionRoutes.post("/verify-password", verifyPassword);
 
 module.exports = { sessionRoutes };

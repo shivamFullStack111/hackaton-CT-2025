@@ -26,7 +26,7 @@ const LiveRoom = () => {
   const [isCallingButtonsOn, setisCallingButtonsOn] = useState(true);
   const [currentPage, setcurrentPage] = useState("whiteboard"); // whiteboard || editor || quiz
   const [language, setlanguage] = useState("javascript");
-  const [theme, settheme] = useState("vs-light");
+  const [theme, settheme] = useState("vs-dark");
   const [activeUsersPopUpOpen, setactiveUsersPopUpOpen] = useState(false);
   const [codeEditorCurrentValue, setcodeEditorCurrentValue] = useState();
   const [roomData, setroomData] = useState();
@@ -234,8 +234,20 @@ const LiveRoom = () => {
     socket.emit("editor-code-change", { newVal, roomId });
   };
 
+  // Loading state
+  if (!roomData) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-300">Loading room information...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <>
+    <div className="relative">
       {isSessionEndedByHost && (
         <SessionEndedByHostOverlay
           user={user}
@@ -349,7 +361,7 @@ const LiveRoom = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

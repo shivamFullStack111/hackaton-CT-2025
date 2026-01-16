@@ -393,13 +393,12 @@ const SidebarRight = ({
             )}
           </div>
         </div>
-
         {/* Live Chat Drawer */}
         <motion.div
           initial={{ x: "200%" }}
           animate={{ x: isLiveChatOpen ? 0 : "200%" }}
           transition={{ duration: 0.6 }}
-          className="absolute right-full z-40 top-0 h-full w-96 bg-dark-navy border-l border-gray-800 flex flex-col"
+          className="fixed right-0 top-auto h-[90%] z-50  w-96 bg-dark-navy border-l border-gray-800 flex flex-col"
         >
           {/* Chat Header */}
           <div className="p-4 border-b border-gray-800">

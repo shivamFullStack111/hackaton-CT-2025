@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import Sidebar_grammer from "./Sidebar_grammer";
+import { DB_URL } from "../../utils";
 
 const ConversationBox = ({ messages, setMessages }) => {
   const [currentDetails, setcurrentDetails] = useState({});
@@ -64,7 +65,7 @@ const ConversationBox = ({ messages, setMessages }) => {
       };
 
       const res = await axios.post(
-        "http://localhost:8888/api/ai/grammer-checker",
+        `${DB_URL}/ai/grammer-checker`,
         payload
       );
 
