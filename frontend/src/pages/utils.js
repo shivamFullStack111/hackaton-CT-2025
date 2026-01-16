@@ -1,4 +1,4 @@
-export const DB_URL = "http://localhost:8888/api"
+export const DB_URL = "https://hackaton-ct-2025.onrender.com/api"
 
 
 
