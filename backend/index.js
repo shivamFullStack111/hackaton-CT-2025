@@ -11,6 +11,7 @@ const { aiRouter } = require("./routes/ai_routes");
 const callRouter = require("./routes/call_routes");
 const { quizRoutes } = require("./routes/quizRoutes");
 const { quizResultRoutes } = require("./routes/quizResultRoutes");
+require("./cronjob");
 
 const app = express();
 
