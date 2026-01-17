@@ -36,6 +36,7 @@ import ResponsiveContainer from "../../components/ResponsiveContainer";
 import axios from "axios";
 import QuizResultPage from "./QuizResultPage";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { IoReload } from "react-icons/io5";
 
 const QuizPage = ({ roomData, user }) => {
   const [selectedQuizData, setselectedQuizData] = useState(null);
@@ -72,14 +73,6 @@ const QuizPage = ({ roomData, user }) => {
   // get current sessions all quizzes
   useEffect(() => {
     try {
-      const getQuizes = async () => {
-        const res = await axios.post(
-          `http://localhost:8888/api/quiz/${roomData?._id}/get-all`
-        );
-
-        console.log(res?.data);
-        setallQuizes(res?.data?.quizes);
-      };
       getQuizes();
     } catch (error) {
       console.log(error.message);
@@ -87,6 +80,17 @@ const QuizPage = ({ roomData, user }) => {
       setloadingQuizes(false);
     }
   }, [selectedQuizData]);
+
+  const getQuizes = async () => {
+    setloadingQuizes(true);
+    const res = await axios.post(
+      `http://localhost:8888/api/quiz/${roomData?._id}/get-all`
+    );
+
+    console.log(res?.data);
+    setallQuizes(res?.data?.quizes);
+    setloadingQuizes(false);
+  };
 
   // set timer
   useEffect(() => {
@@ -298,18 +302,10 @@ const QuizPage = ({ roomData, user }) => {
         )}
         {!results && (
           <>
-            {loadingQuizes && (
-              <div className="flex w-full flex-col gap-2 h-min justify-center items-center p-16">
-                <div className="rounded-full h-8 w-8 border-l-2 border-r-2 border-b-2 animate-spin"></div>
-                <p className="text-white font-semibold animate-pulse">
-                  {" "}
-                  Fetching...
-                </p>
-              </div>
-            )}
-
-            {!selectedQuizData && !loadingQuizes && (
+            {!selectedQuizData && (
               <CompactQuizBoxes
+                loadingQuizes={loadingQuizes}
+                getQuizes={getQuizes}
                 setselectedQuizData={setselectedQuizData}
                 quizzes={allQuizes}
               />
@@ -1125,7 +1121,12 @@ const QuizPage = ({ roomData, user }) => {
 
 export default QuizPage;
 
-const CompactQuizBoxes = ({ quizzes = [], setselectedQuizData }) => {
+const CompactQuizBoxes = ({
+  quizzes = [],
+  setselectedQuizData,
+  getQuizes,
+  loadingQuizes,
+}) => {
   // const generateQuizzes = () => {
   //   return Array.from({ length: 12 }, (_, i) => ({
   //     id: `quiz_${i + 1}`,
@@ -1150,12 +1151,18 @@ const CompactQuizBoxes = ({ quizzes = [], setselectedQuizData }) => {
 
   return (
     <div className="w-full h-[90vh] overflow-y-auto px-6 pb-12 scrollbar">
-      <div className="w-full overflow-y-auto my-8">
-        <div className="flex justify-between items-start">
-          <div>
-            <div className="text-4xl font-bold text-white flex items-center gap-3">
+      <div className="w-full overflow-y-auto overflow-x-hidden my-8">
+        <div className="flex w-full justify-between items-start">
+          <div className="w-full ">
+            <div className="text-4xl   w-full font-bold text-white flex items-center gap-3">
               <BadgeQuestionMark className="text-teal" />
               Quizzes of Current Session
+              <IoReload
+                onClick={() => getQuizes()}
+                className={`ml-auto cursor-pointer ${
+                  loadingQuizes ? " animate-spin " : ""
+                }`}
+              />
             </div>
             <p className="text-gray-300 font-semibold mt-2">
               Pick a quiz from the list below and begin answering to test your
@@ -1164,80 +1171,88 @@ const CompactQuizBoxes = ({ quizzes = [], setselectedQuizData }) => {
           </div>
         </div>
       </div>
-      <div className="   grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full h-min gap-6  ">
-        {quizzes?.map((quiz) => (
-          <div
-            key={quiz?.id}
-            className="bg-dark-navy h-min col-span-1 border border-gray-800 rounded-xl p-5 hover:border-teal transition-all duration-300 group"
-          >
-            {/* Icon and Title */}
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-gradient-to-r from-teal to-purple-600 rounded-lg">
-                <Target className="h-5 w-5 text-white" />
-              </div>
-              <h3 className="text-white font-bold group-hover:text-teal transition-colors line-clamp-1">
-                {quiz?.title}
-              </h3>
-            </div>
-
-            {/* Stats */}
-            <div className="space-y-3 mb-5">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Hash className="h-4 w-4 text-gray-400" />
-                  <span className="text-white">
-                    {quiz?.questions?.length} Questions
-                  </span>
+      {loadingQuizes && (
+        <div className="flex w-full flex-col gap-2 h-min justify-center items-center p-16">
+          <div className="rounded-full h-8 w-8 border-l-2 border-r-2 border-b-2 animate-spin"></div>
+          <p className="text-white font-semibold animate-pulse"> Fetching...</p>
+        </div>
+      )}
+      {!loadingQuizes && (
+        <div className="   grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full h-min gap-6  ">
+          {quizzes?.map((quiz) => (
+            <div
+              key={quiz?.id}
+              className="bg-dark-navy h-min col-span-1 border border-gray-800 rounded-xl p-5 hover:border-teal transition-all duration-300 group"
+            >
+              {/* Icon and Title */}
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 bg-gradient-to-r from-teal to-purple-600 rounded-lg">
+                  <Target className="h-5 w-5 text-white" />
                 </div>
-                <div className="text-white font-bold">
-                  {getTotalMarks(quiz)} Marks
-                </div>
+                <h3 className="text-white font-bold group-hover:text-teal transition-colors line-clamp-1">
+                  {quiz?.title}
+                </h3>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-gray-400" />
-                  <span className="text-white">
-                    {Math.floor(quiz?.timeLimit / 60)} min{" "}
-                    {quiz?.timeLimit % 60 > 0 ? (
-                      `${quiz?.timeLimit % 60} sec`
-                    ) : (
-                      <></>
-                    )}
-                  </span>
+              {/* Stats */}
+              <div className="space-y-3 mb-5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Hash className="h-4 w-4 text-gray-400" />
+                    <span className="text-white">
+                      {quiz?.questions?.length} Questions
+                    </span>
+                  </div>
+                  <div className="text-white font-bold">
+                    {getTotalMarks(quiz)} Marks
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4 text-purple-400" />
-                  <span className="text-white">{quiz?.participants}</span>
-                </div>
-              </div>
 
-              {/* <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4 text-gray-400" />
+                    <span className="text-white">
+                      {Math.floor(quiz?.timeLimit / 60)} min{" "}
+                      {quiz?.timeLimit % 60 > 0 ? (
+                        `${quiz?.timeLimit % 60} sec`
+                      ) : (
+                        <></>
+                      )}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4 text-purple-400" />
+                    <span className="text-white">{quiz?.participants}</span>
+                  </div>
+                </div>
+
+                {/* <div className="flex items-center gap-2">
               <Star className="h-4 w-4 text-yellow-400 fill-current" />
               <span className="text-white">{quiz?.rating}</span>
               <span className="text-gray-500 text-sm">rating</span>
             </div> */}
+              </div>
+
+              {/* Start Button */}
+              <button
+                onClick={() => setselectedQuizData(quiz)}
+                className="w-full py-3 bg-gradient-to-r from-teal to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all flex items-center justify-center gap-2 group-hover:scale-[1.02]"
+              >
+                <Play className="h-4 w-4" />
+                Start Now
+              </button>
             </div>
+          ))}
 
-            {/* Start Button */}
-            <button
-              onClick={() => setselectedQuizData(quiz)}
-              className="w-full py-3 bg-gradient-to-r from-teal to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all flex items-center justify-center gap-2 group-hover:scale-[1.02]"
-            >
-              <Play className="h-4 w-4" />
-              Start Now
-            </button>
-          </div>
-        ))}
-
-        {!quizzes?.length && (
-          <div className="flex w-full col-span-3 justify-center items-center">
-            {/* <div className="flex rounded-lg border border-gray-700 bg-slate-900 p-12"> */}
+          {!quizzes?.length && (
+            <div className="flex w-full col-span-3 justify-center items-center">
+              {/* <div className="flex rounded-lg border border-gray-700 bg-slate-900 p-12"> */}
               <p className="text-gray-500 mt-10 ">No Quiz Found!</p>
-            {/* </div> */}
-          </div>
-        )}
-      </div>
+              {/* </div> */}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

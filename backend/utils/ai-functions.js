@@ -207,7 +207,8 @@ const quiz_checker = async (quiz, studentAnswers) => {
                   },
                   userAnswer: {
                     type: "string",
-                    description: "user answer if the question type true-false or mcq user provided option number but you have to return actual answer not option number",
+                    description:
+                      "user answer if the question type true-false or mcq user provided option number but you have to return actual answer not option number",
                   },
                   correctAnswer: {
                     type: "string",
@@ -262,7 +263,7 @@ const quiz_checker = async (quiz, studentAnswers) => {
         },
       },
     });
-console.log(completion.choices[0].message.content)
+    console.log(completion.choices[0].message.content);
     return completion;
   } catch (error) {
     console.log(error.message);
@@ -288,7 +289,8 @@ const quiz_generator = async (
          User will also provide you quiz requirements or topics for quiz 
          Marks of question must between 1 to 10 according to question type and difficulty
         (Important)
-          It is not compulsary to create question of all types only that question which can be create accordig to given topic and requirements by user example some of the topic doesn't have code implementation like (history,economics,GK,science) etc.
+          (a) It is not compulsary to create question of all types only that question which can be create accordig to given topic and requirements by user example some of the topic doesn't have code implementation like (history,economics,GK,science) etc.
+          (b) Time of quiz must according to question complexity and type must provide fair time. Like code implementation takes much time according to complexity 
 
          You have to generate different types of questions:
          1. MCQ
@@ -328,7 +330,42 @@ const quiz_generator = async (
               },
               timeLimit: {
                 type: "number",
-                description: "Total Time Limit in (seconds)",
+                description: `Total time limit of the quiz in seconds.
+
+  YOU MUST calculate this value logically and fairly for human users.
+
+  STRICT RULES FOR TIME CALCULATION:
+
+  1. Calculate expected time PER QUESTION based on its type and difficulty.
+
+     - MCQ / True-False:
+       • Beginner: minimum 60–90 seconds per question
+       • Intermediate: minimum 2 minutes per question
+       • Advanced: minimum 3 minutes per question
+
+     - Short-Answer / Fill-in-the-Blanks:
+       • Beginner: minimum 2 minutes per question
+       • Intermediate: minimum 3–4 minutes per question
+       • Advanced: minimum 5 minutes per question
+
+     - Coding / DSA / Problem-Solving:
+       • Beginner: minimum 6–8 minutes per question
+       • Intermediate: minimum 10–15 minutes per question
+       • Advanced: minimum 20–30 minutes per question
+
+  2. Total timeLimit MUST scale with:
+     • Number of questions
+     • Question types
+     • Difficulty level
+
+  3. Add a minimum buffer of 15–25% extra time for thinking and review.
+
+  4. DO NOT underestimate time.
+     Unrealistically short quizzes are NOT allowed.
+
+  5. The final timeLimit must be FAIR, PRACTICAL, and suitable for real exams or assessments.
+
+  6. Always prefer generosity over strictness when calculating time.`,
               },
               totalMarks: {
                 type: "number",

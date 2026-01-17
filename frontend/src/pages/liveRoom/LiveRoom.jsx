@@ -46,7 +46,7 @@ const LiveRoom = () => {
   useEffect(() => {
     return () => {
       if (user?._id == roomData?.createdBy?._id) {
-        // endSession();
+        endSession();
       }
     };
   }, [roomData, user]);

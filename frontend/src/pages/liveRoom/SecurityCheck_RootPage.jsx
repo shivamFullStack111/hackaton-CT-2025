@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 
 const SecurityCheck_RootPage = () => {
   const [roomData, setroomData] = useState();
+  const [isLoadingRoomData, setisLoadingRoomData] = useState(true);
   const { id: roomId } = useParams();
   const [isVerified, setisVerified] = useState(false);
   const [password, setpassword] = useState("");
@@ -29,6 +30,8 @@ const SecurityCheck_RootPage = () => {
         }
       } catch (error) {
         toast.error(error.message);
+      } finally {
+        setisLoadingRoomData(false);
       }
     };
     getRoomData();
@@ -64,7 +67,7 @@ const SecurityCheck_RootPage = () => {
   };
 
   // Loading state
-  if (!roomData) {
+  if (isLoadingRoomData) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
         <div className="text-center">
@@ -75,7 +78,9 @@ const SecurityCheck_RootPage = () => {
     );
   }
 
-  if (roomData?.ended == true)
+
+
+  if (roomData?.ended == true || !roomData)
     return (
       <SessionEndedOverlay
         roomData={roomData}
