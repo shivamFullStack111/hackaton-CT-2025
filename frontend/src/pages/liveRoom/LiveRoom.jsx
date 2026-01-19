@@ -20,7 +20,7 @@ import Dashboard from "./Dashboard";
 import SessionEndedByHostOverlay from "./SessionEndedByHostOverlay";
 import SessionEndedOverlay from "./SessionEndedOverlay";
 
-const socket = io("http://localhost:8888");
+const socket = io("https://hackaton-ct-2025.onrender.com");
 
 const LiveRoom = () => {
   const [isCallingButtonsOn, setisCallingButtonsOn] = useState(true);
